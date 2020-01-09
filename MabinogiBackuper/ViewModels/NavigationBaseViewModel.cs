@@ -43,19 +43,48 @@ namespace MabinogiBackuper.ViewModels
             }
         }
 
+        private int _currentPage;
+
         public IList<Page> Pages { get; set; }
         public NavigationService Navigation { get; set; }
 
         public NavigationBindableValue NavigationValue { get; } = new NavigationBindableValue();
 
+        public void Initialize()
+        {
+            NavigationValue.CanGoBack = false;
+            NavigationValue.CanGoNext = Pages.Count > 1;
+        }
+
         public void GoNext()
         {
+            if (_currentPage + 1 >= Pages.Count)
+                return;
 
+            var page = Pages[_currentPage + 1];
+            _currentPage++;
+            if (!Navigation.CanGoForward)
+                Navigation.Navigate(page);
+            else
+                Navigation.GoForward();
+
+            if (_currentPage >= Pages.Count - 1)
+                NavigationValue.CanGoNext = false;
+            NavigationValue.CanGoBack = true;
         }
 
         public void GoBack()
         {
+            if (!Navigation.CanGoBack)
+                return;
 
+            Navigation.GoBack();
+            _currentPage--;
+
+            if (Pages.Count > 1)
+                NavigationValue.CanGoNext = true;
+
+            NavigationValue.CanGoBack = Navigation.CanGoBack;
         }
     }
 
@@ -65,7 +94,11 @@ namespace MabinogiBackuper.ViewModels
         {
             _navigationService = service;
 
+            BackBtIsEnabled = service.NavigationValue.ObserveProperty(m => m.CanGoBack).ToReactiveProperty();
+            NextBtIsEnabled = service.NavigationValue.ObserveProperty(m => m.CanGoNext).ToReactiveProperty();
             CloseBtVisibility = service.NavigationValue.ObserveProperty(m => m.CloseBtVisibility).ToReactiveProperty();
+            BackBtCommand = new DelegateCommand(GoBack);
+            NextBtCommand = new DelegateCommand(GoNext);
         }
 
         #region Fields
@@ -76,7 +109,16 @@ namespace MabinogiBackuper.ViewModels
 
         #region Properties
 
+        public ReactiveProperty<bool> BackBtIsEnabled { get; set; }
+        public ReactiveProperty<bool> NextBtIsEnabled { get; set; }
         public ReactiveProperty<Visibility> CloseBtVisibility { get; set; }
+
+        #endregion
+
+        #region Event Properties
+
+        public ICommand BackBtCommand { get; set; }
+        public ICommand NextBtCommand { get; set; }
 
         #endregion
 
@@ -86,6 +128,16 @@ namespace MabinogiBackuper.ViewModels
         protected override void MainWindow_Loaded()
         {
             _navigationService.Navigation.Navigate(_navigationService.Pages.First());
+        }
+
+        public void GoBack()
+        {
+            _navigationService.GoBack();
+        }
+
+        public void GoNext()
+        {
+            _navigationService.GoNext();
         }
 
         #endregion

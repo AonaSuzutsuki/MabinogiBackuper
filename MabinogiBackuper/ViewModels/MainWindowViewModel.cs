@@ -57,6 +57,7 @@ namespace MabinogiBackuper.ViewModels
                 {
                     new TestPage(service)
                 };
+                service.Initialize();
                 var vm = new NavigationBaseViewModel(service, navigationModel);
                 window.Loaded += (sender, args) => vm.Loaded.Execute(null);
                 return vm;
