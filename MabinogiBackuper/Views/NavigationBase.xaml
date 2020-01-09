@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
-        Title="NavigationBase" Height="450" Width="800" WindowStyle="None">
+        Title="{Binding WindowTitle.Value}" Height="450" Width="800" WindowStyle="None">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -57,7 +57,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
-                <Label Content="Savannah Manager" Style="{DynamicResource ResourceKey=StatTitle}" />
+                <Label Content="{Binding WindowTitle.Value}" Style="{DynamicResource ResourceKey=StatTitle}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"

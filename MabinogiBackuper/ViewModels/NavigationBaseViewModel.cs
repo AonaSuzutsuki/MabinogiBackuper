@@ -27,6 +27,14 @@ namespace MabinogiBackuper.ViewModels
             private Visibility _closeBtVisibility;
             private Visibility _cancelBtVisibility;
 
+            private string _windowTitle;
+
+            public string WindowTitle
+            {
+                get => _windowTitle;
+                set => SetProperty(ref _windowTitle, value);
+            }
+
             public bool CanGoNext
             {
                 get => _canGoNext;
@@ -103,6 +111,7 @@ namespace MabinogiBackuper.ViewModels
         {
             _navigationService = service;
 
+            WindowTitle = service.NavigationValue.ObserveProperty(m => m.WindowTitle).ToReactiveProperty();
             BackBtIsEnabled = service.NavigationValue.ObserveProperty(m => m.CanGoBack).ToReactiveProperty();
             NextBtIsEnabled = service.NavigationValue.ObserveProperty(m => m.CanGoNext).ToReactiveProperty();
             CloseBtVisibility = service.NavigationValue.ObserveProperty(m => m.CloseBtVisibility).ToReactiveProperty();
@@ -119,6 +128,8 @@ namespace MabinogiBackuper.ViewModels
         #endregion
 
         #region Properties
+
+        public ReactiveProperty<string> WindowTitle { get; set; }
 
         public ReactiveProperty<bool> BackBtIsEnabled { get; set; }
         public ReactiveProperty<bool> NextBtIsEnabled { get; set; }
