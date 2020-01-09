@@ -21,10 +21,11 @@ namespace MabinogiBackuper.Views.Pages
     /// </summary>
     public partial class TestPage : Page
     {
-        public TestPage(NavigationWindowService service)
+        public TestPage(NavigationWindowService service, string text = "test")
         {
             InitializeComponent();
 
+            Text.Text = text;
             service.NavigationValue.CloseBtVisibility = Visibility.Collapsed;
             service.NavigationValue.CancelBtVisibility = Visibility.Collapsed;
         }

@@ -56,7 +56,9 @@ namespace MabinogiBackuper.ViewModels
                 service.NavigationValue.WindowTitle = "Mabinogi Backuper - バックアップ";
                 service.Pages = new List<Page>
                 {
-                    new TestPage(service)
+                    new TestPage(service),
+                    new TestPage(service, "aaa"),
+                    new TestPage(service, "bbb"),
                 };
                 service.Initialize();
                 var vm = new NavigationBaseViewModel(service, navigationModel);

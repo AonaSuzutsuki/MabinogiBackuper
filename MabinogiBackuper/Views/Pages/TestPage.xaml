@@ -9,7 +9,7 @@
       Title="TestPage">
 
     <Grid>
-        <TextBlock Foreground="White">
+        <TextBlock Name="Text" Foreground="White">
             Test
             Test
             Test
