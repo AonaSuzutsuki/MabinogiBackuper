@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Navigation;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using MabinogiBackuper.Models;
+using Prism.Commands;
 using Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -23,6 +25,7 @@ namespace MabinogiBackuper.ViewModels
             private bool _canGoBack;
 
             private Visibility _closeBtVisibility;
+            private Visibility _cancelBtVisibility;
 
             public bool CanGoNext
             {
@@ -40,6 +43,12 @@ namespace MabinogiBackuper.ViewModels
             {
                 get => _closeBtVisibility;
                 set => SetProperty(ref _closeBtVisibility, value);
+            }
+
+            public Visibility CancelBtVisibility
+            {
+                get => _cancelBtVisibility;
+                set => SetProperty(ref _cancelBtVisibility, value);
             }
         }
 
@@ -97,6 +106,8 @@ namespace MabinogiBackuper.ViewModels
             BackBtIsEnabled = service.NavigationValue.ObserveProperty(m => m.CanGoBack).ToReactiveProperty();
             NextBtIsEnabled = service.NavigationValue.ObserveProperty(m => m.CanGoNext).ToReactiveProperty();
             CloseBtVisibility = service.NavigationValue.ObserveProperty(m => m.CloseBtVisibility).ToReactiveProperty();
+            CancelBtVisibility = service.NavigationValue.ObserveProperty(m => m.CancelBtVisibility).ToReactiveProperty();
+
             BackBtCommand = new DelegateCommand(GoBack);
             NextBtCommand = new DelegateCommand(GoNext);
         }
@@ -112,6 +123,7 @@ namespace MabinogiBackuper.ViewModels
         public ReactiveProperty<bool> BackBtIsEnabled { get; set; }
         public ReactiveProperty<bool> NextBtIsEnabled { get; set; }
         public ReactiveProperty<Visibility> CloseBtVisibility { get; set; }
+        public ReactiveProperty<Visibility> CancelBtVisibility { get; set; }
 
         #endregion
 

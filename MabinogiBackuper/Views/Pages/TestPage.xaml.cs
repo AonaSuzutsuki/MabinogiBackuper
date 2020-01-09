@@ -25,7 +25,8 @@ namespace MabinogiBackuper.Views.Pages
         {
             InitializeComponent();
 
-            service.NavigationValue.CloseBtVisibility = Visibility.Visible;
+            service.NavigationValue.CloseBtVisibility = Visibility.Collapsed;
+            service.NavigationValue.CancelBtVisibility = Visibility.Collapsed;
         }
     }
 }

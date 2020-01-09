@@ -79,7 +79,7 @@
                         <Button Content="戻る" Width="100" IsEnabled="{Binding BackBtIsEnabled.Value}" Style="{StaticResource FlatButton}" Command="{Binding BackBtCommand}" />
                         <Button Content="次へ" IsEnabled="{Binding NextBtIsEnabled.Value}" Margin="5,0,0,0" Width="100" Style="{StaticResource FlatButton}" Command="{Binding NextBtCommand}" />
                         <Button Content="終了" Margin="5,0,0,0" Width="100" Style="{StaticResource FlatButton}" Visibility="{Binding CloseBtVisibility.Value}" />
-                        <Button Content="キャンセル" Margin="5,0,0,0" Width="100" Style="{StaticResource FlatButton}" />
+                        <Button Content="キャンセル" Margin="5,0,0,0" Width="100" Style="{StaticResource FlatButton}" Visibility="{Binding CancelBtVisibility.Value}" />
                     </StackPanel>
                 </Grid>
             </Grid>
