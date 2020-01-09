@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:CommonViews="clr-namespace:CommonStyleLib.Views;assembly=CommonStyleLib"
-        Title="MainWindow" Height="400" Width="400" WindowStyle="None" ResizeMode="CanMinimize">
+        Title="MainWindow" Height="400" Width="450" WindowStyle="None" ResizeMode="CanMinimize">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -38,6 +38,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
+                <ResourceDictionary>
+                    <BitmapImage x:Key="Icon" UriSource="pack://application:,,,/MabinogiBackuperLib;component/Resources/53a1cdbf069c42.ico" />
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -57,7 +60,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
-                <Label Content="Savannah Manager" Style="{DynamicResource ResourceKey=StatTitle}" />
+                <Label Content="Mabinogi Backuper" Style="{DynamicResource ResourceKey=StatTitle}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"
@@ -79,27 +82,57 @@
                         <MenuItem Header="Version Rewriter" />
                     </MenuItem>
                     <MenuItem Header="Help(_H)">
-                        <MenuItem />
+                        <MenuItem Header="バージョン情報(_A)" />
                     </MenuItem>
                 </Menu>
             </StackPanel>
 
-            <Grid Margin="5,55,5,5">
+            <Grid Margin="10,55,10,10">
 
                 <Grid.RowDefinitions>
                     <RowDefinition />
-                    <RowDefinition Height="5" />
+                    <RowDefinition Height="15" />
                     <RowDefinition />
                     <RowDefinition Height="5" />
-                    <RowDefinition />
-                    <RowDefinition Height="5" />
+                    <RowDefinition Height="45" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <Button Content="設定のバックアップ" Height="Auto" Style="{StaticResource FlatButton}" Command="{Binding BackupBtCommand}" />
-                <Button Grid.Row="2" Content="設定のリストア" Height="Auto" Style="{StaticResource FlatButton}" />
-                <Button Grid.Row="4" Content="マビノギの登録" Height="Auto" Style="{StaticResource FlatButton}" />
-                <Button Grid.Row="6" Content="アップデートの再適用" Height="Auto" Style="{StaticResource FlatButton}" />
+                <Button Height="Auto" Style="{StaticResource FlatButton}" Command="{Binding BackupBtCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource Icon}" Width="25" />
+                        <Label Content="設定のバックアップ" />
+                    </StackPanel>
+                </Button>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="25" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Height="Auto" Style="{StaticResource FlatButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource Icon}" Width="25" />
+                            <Label Content="設定のリストア" />
+                        </StackPanel>
+                    </Button>
+                    <Label Grid.Column="1" Content="⇨" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Button Grid.Column="2" Height="Auto" Style="{StaticResource FlatButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource Icon}" Width="25" />
+                            <Label Content="マビノギランチャーの登録" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+
+                <Label Grid.Row="4" Content="アップデートに失敗したときはこちら" VerticalAlignment="Bottom" />
+                <Button Grid.Row="5" Height="Auto" Style="{StaticResource FlatButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{StaticResource Icon}" Width="25" />
+                        <Label Content="アップデートの再適用" />
+                    </StackPanel>
+                </Button>
             </Grid>
 
         </Grid>
