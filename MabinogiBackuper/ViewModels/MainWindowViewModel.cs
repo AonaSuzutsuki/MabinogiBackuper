@@ -10,6 +10,7 @@ using CommonStyleLib.Views;
 using MabinogiBackuper.Models;
 using MabinogiBackuper.Views;
 using MabinogiBackuper.Views.Pages;
+using MabinogiBackuper.Views.Pages.Backup;
 using Prism.Commands;
 
 namespace MabinogiBackuper.ViewModels
@@ -56,9 +57,11 @@ namespace MabinogiBackuper.ViewModels
                 service.NavigationValue.WindowTitle = "Mabinogi Backuper - バックアップ";
                 service.Pages = new List<Page>
                 {
-                    new TestPage(service),
-                    new TestPage(service, "aaa"),
-                    new TestPage(service, "bbb"),
+                    new FirstPage(service),
+                    new DestSavePage(service),
+                    new BackupSelectionPage(service),
+                    new BackupProgressPage(service),
+                    new FinishPage(service)
                 };
                 service.Initialize();
                 var vm = new NavigationBaseViewModel(service, navigationModel);

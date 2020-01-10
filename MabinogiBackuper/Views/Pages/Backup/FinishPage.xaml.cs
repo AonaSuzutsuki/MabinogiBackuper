@@ -14,20 +14,16 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MabinogiBackuper.ViewModels;
 
-namespace MabinogiBackuper.Views.Pages
+namespace MabinogiBackuper.Views.Pages.Backup
 {
     /// <summary>
-    /// TestPage.xaml の相互作用ロジック
+    /// Finish.xaml の相互作用ロジック
     /// </summary>
-    public partial class TestPage : Page
+    public partial class FinishPage : Page
     {
-        public TestPage(NavigationWindowService service, string text = "test")
+        public FinishPage(NavigationWindowService service)
         {
             InitializeComponent();
-
-            Text.Text = text;
-            service.NavigationValue.CloseBtVisibility = Visibility.Collapsed;
-            service.NavigationValue.CancelBtVisibility = Visibility.Collapsed;
         }
     }
 }

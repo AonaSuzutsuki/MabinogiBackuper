@@ -114,8 +114,20 @@
     <Compile Include="Views\NavigationBase.xaml.cs">
       <DependentUpon>NavigationBase.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Pages\TestPage.xaml.cs">
-      <DependentUpon>TestPage.xaml</DependentUpon>
+    <Compile Include="Views\Pages\Backup\BackupProgressPage.xaml.cs">
+      <DependentUpon>BackupProgressPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Backup\BackupSelectionPage.xaml.cs">
+      <DependentUpon>BackupSelectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Backup\DestSavePage.xaml.cs">
+      <DependentUpon>DestSavePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Backup\FinishPage.xaml.cs">
+      <DependentUpon>FinishPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Backup\FirstPage.xaml.cs">
+      <DependentUpon>FirstPage.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\BackupWindow.xaml">
       <SubType>Designer</SubType>
@@ -140,7 +152,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Pages\TestPage.xaml">
+    <Page Include="Views\Pages\Backup\BackupProgressPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Backup\BackupSelectionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Backup\DestSavePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Backup\FinishPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Backup\FirstPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

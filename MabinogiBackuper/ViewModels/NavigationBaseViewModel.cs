@@ -17,49 +17,49 @@ using Reactive.Bindings.Extensions;
 
 namespace MabinogiBackuper.ViewModels
 {
-    public class NavigationWindowService : WindowService
+    public class NavigationBindableValue : BindableBase
     {
-        public class NavigationBindableValue : BindableBase
+        private bool _canGoNext;
+        private bool _canGoBack;
+
+        private Visibility _closeBtVisibility;
+        private Visibility _cancelBtVisibility;
+
+        private string _windowTitle;
+
+        public string WindowTitle
         {
-            private bool _canGoNext;
-            private bool _canGoBack;
-
-            private Visibility _closeBtVisibility;
-            private Visibility _cancelBtVisibility;
-
-            private string _windowTitle;
-
-            public string WindowTitle
-            {
-                get => _windowTitle;
-                set => SetProperty(ref _windowTitle, value);
-            }
-
-            public bool CanGoNext
-            {
-                get => _canGoNext;
-                set => SetProperty(ref _canGoNext, value);
-            }
-
-            public bool CanGoBack
-            {
-                get => _canGoBack;
-                set => SetProperty(ref _canGoBack, value);
-            }
-
-            public Visibility CloseBtVisibility
-            {
-                get => _closeBtVisibility;
-                set => SetProperty(ref _closeBtVisibility, value);
-            }
-
-            public Visibility CancelBtVisibility
-            {
-                get => _cancelBtVisibility;
-                set => SetProperty(ref _cancelBtVisibility, value);
-            }
+            get => _windowTitle;
+            set => SetProperty(ref _windowTitle, value);
         }
 
+        public bool CanGoNext
+        {
+            get => _canGoNext;
+            set => SetProperty(ref _canGoNext, value);
+        }
+
+        public bool CanGoBack
+        {
+            get => _canGoBack;
+            set => SetProperty(ref _canGoBack, value);
+        }
+
+        public Visibility CloseBtVisibility
+        {
+            get => _closeBtVisibility;
+            set => SetProperty(ref _closeBtVisibility, value);
+        }
+
+        public Visibility CancelBtVisibility
+        {
+            get => _cancelBtVisibility;
+            set => SetProperty(ref _cancelBtVisibility, value);
+        }
+    }
+
+    public class NavigationWindowService : WindowService
+    {
         private int _currentPage;
 
         public IList<Page> Pages { get; set; }

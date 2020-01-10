@@ -1,0 +1,30 @@
+﻿<Page x:Class="MabinogiBackuper.Views.Pages.Backup.BackupSelectionPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MabinogiBackuper.Views.Pages.Backup"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="BackupSelectionPage">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <StackPanel>
+            <Label Content="バックアップする項目を選択してください。" />
+            <CheckBox Content="全選択" Height="16" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" />
+            <CheckBox Content="お絵かきチャット" Height="16" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" />
+            <CheckBox Content="スクリーンショット" Height="16" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" />
+            <CheckBox Content="ペットキャラクターAI" Height="16" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" />
+            <CheckBox Content="キー配列・アラーム" Height="16" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" />
+        </StackPanel>
+    </Grid>
+</Page>
