@@ -54,16 +54,16 @@ namespace MabinogiBackuper.ViewModels
                 {
                     Owner = window,
                     Navigation = window.MainFrame.NavigationService,
+                    Pages = new List<Type>
+                    {
+                        typeof(FirstPage),
+                        typeof(DestSavePage),
+                        typeof(BackupSelectionPage),
+                        typeof(BackupProgressPage),
+                        typeof(FinishPage)
+                    }
                 };
-                service.NavigationValue.WindowTitle = "Mabinogi Backuper - バックアップ";
-                service.Pages = new List<Page>
-                {
-                    new FirstPage(service),
-                    new DestSavePage(service),
-                    new BackupSelectionPage(service),
-                    new BackupProgressPage(service),
-                    new FinishPage(service)
-                };
+                service.NavigationValue.WindowTitle = "Mabinogi Backuper - バックアップ";;
                 service.Initialize();
                 var vm = new NavigationBaseViewModel<BackupShare>(service, navigationModel);
                 window.Loaded += (sender, args) => vm.Loaded.Execute(null);

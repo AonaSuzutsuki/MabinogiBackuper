@@ -28,9 +28,9 @@
                         <ColumnDefinition Width="25" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBox />
+                    <TextBox Text="{Binding SavedPath}" />
 
-                    <Button Grid.Column="2" Content="..." Style="{StaticResource FlatButton}" />
+                    <Button Grid.Column="2" Content="..." Style="{StaticResource FlatButton}" Command="{Binding GetSavedPathCommand}" />
 
                 </Grid>
             </StackPanel>

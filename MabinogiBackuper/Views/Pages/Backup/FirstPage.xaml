@@ -13,9 +13,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
-                <ResourceDictionary>
-                    <BitmapImage x:Key="Icon" UriSource="pack://application:,,,/MabinogiBackuperLib;component/Resources/53a1cdbf069c42.ico" />
-                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>

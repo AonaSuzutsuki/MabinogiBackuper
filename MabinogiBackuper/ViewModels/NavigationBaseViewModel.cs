@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
+using CommonExtensionLib.Extensions;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using MabinogiBackuper.Models;
@@ -19,18 +20,26 @@ namespace MabinogiBackuper.ViewModels
 {
     public class NavigationBindableValue : BindableBase
     {
+
         private bool _canGoNext;
         private bool _canGoBack;
 
         private Visibility _closeBtVisibility;
         private Visibility _cancelBtVisibility;
 
+        private string _nextBtContent;
         private string _windowTitle;
 
         public string WindowTitle
         {
             get => _windowTitle;
             set => SetProperty(ref _windowTitle, value);
+        }
+
+        public string NextBtContent
+        {
+            get => _nextBtContent;
+            set => SetProperty(ref _nextBtContent, value);
         }
 
         public bool CanGoNext
@@ -56,13 +65,25 @@ namespace MabinogiBackuper.ViewModels
             get => _cancelBtVisibility;
             set => SetProperty(ref _cancelBtVisibility, value);
         }
+
+
+        public NavigationBindableValue()
+        {
+            InitDefaultValue();
+        }
+
+        public void InitDefaultValue()
+        {
+            NextBtContent = "次へ";
+        }
     }
 
     public class NavigationWindowService<T> : WindowService where T : new()
     {
-        private int _currentPage;
+        private int _currentPage = -1;
+        private Dictionary<Type, object> cacheDictionary = new Dictionary<Type, object>();
 
-        public IList<Page> Pages { get; set; }
+        public IList<Type> Pages { get; set; }
         public NavigationService Navigation { get; set; }
 
         public NavigationBindableValue NavigationValue { get; } = new NavigationBindableValue();
@@ -80,7 +101,17 @@ namespace MabinogiBackuper.ViewModels
             if (_currentPage + 1 >= Pages.Count)
                 return;
 
-            var page = Pages[_currentPage + 1];
+            var type = Pages[_currentPage + 1];
+            var page = cacheDictionary.GetCallback(type, () => Activator.CreateInstance(Pages[_currentPage + 1], this));
+            if (!cacheDictionary.ContainsKey(type))
+                cacheDictionary.Add(type, page);
+
+            if (page is Page cPage)
+            {
+                var refresh = cPage.DataContext as INavigationRefresh;
+                refresh?.RefreshLabel();
+            }
+
             _currentPage++;
             if (!Navigation.CanGoForward)
                 Navigation.Navigate(page);
@@ -100,6 +131,14 @@ namespace MabinogiBackuper.ViewModels
             Navigation.GoBack();
             _currentPage--;
 
+            var type = Pages[_currentPage];
+            var page = cacheDictionary.GetCallback(type, null);
+            if (page is Page cPage)
+            {
+                var refresh = cPage.DataContext as INavigationRefresh;
+                refresh?.RefreshLabel();
+            }
+
             if (Pages.Count > 1)
                 NavigationValue.CanGoNext = true;
 
@@ -114,6 +153,7 @@ namespace MabinogiBackuper.ViewModels
             _navigationService = service;
 
             WindowTitle = service.NavigationValue.ObserveProperty(m => m.WindowTitle).ToReactiveProperty();
+            NextBtContent = service.NavigationValue.ObserveProperty(m => m.NextBtContent).ToReactiveProperty();
             BackBtIsEnabled = service.NavigationValue.ObserveProperty(m => m.CanGoBack).ToReactiveProperty();
             NextBtIsEnabled = service.NavigationValue.ObserveProperty(m => m.CanGoNext).ToReactiveProperty();
             CloseBtVisibility = service.NavigationValue.ObserveProperty(m => m.CloseBtVisibility).ToReactiveProperty();
@@ -132,6 +172,8 @@ namespace MabinogiBackuper.ViewModels
         #region Properties
 
         public ReactiveProperty<string> WindowTitle { get; set; }
+
+        public ReactiveProperty<string> NextBtContent { get; set; }
 
         public ReactiveProperty<bool> BackBtIsEnabled { get; set; }
         public ReactiveProperty<bool> NextBtIsEnabled { get; set; }
@@ -152,7 +194,7 @@ namespace MabinogiBackuper.ViewModels
 
         protected override void MainWindow_Loaded()
         {
-            _navigationService.Navigation.Navigate(_navigationService.Pages.First());
+            _navigationService.GoNext();
         }
 
         public void GoBack()

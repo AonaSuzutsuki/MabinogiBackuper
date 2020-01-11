@@ -12,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MabinogiBackuper.Models.Backup;
 using MabinogiBackuper.ViewModels;
+using MabinogiBackuper.ViewModels.Backup;
 
 namespace MabinogiBackuper.Views.Pages.Backup
 {
@@ -21,9 +23,12 @@ namespace MabinogiBackuper.Views.Pages.Backup
     /// </summary>
     public partial class BackupSelectionPage : Page
     {
-        public BackupSelectionPage(NavigationWindowService service)
+        public BackupSelectionPage(NavigationWindowService<BackupShare> service)
         {
             InitializeComponent();
+
+            var vm = new BackupSelectionPageViewModel(service);
+            DataContext = vm;
         }
     }
 }

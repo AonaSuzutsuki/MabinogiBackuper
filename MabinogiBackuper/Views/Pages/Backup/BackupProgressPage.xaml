@@ -8,7 +8,16 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="BackupProgressPage">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid>
-        
+        <ProgressBar Value="79" Height="30" Style="{StaticResource ProgressBarStyle}" />
     </Grid>
 </Page>

@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MabinogiBackuper.Views.Pages.Backup"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="BackupSelectionPage">
@@ -20,11 +21,41 @@
     <Grid>
         <StackPanel>
             <Label Content="バックアップする項目を選択してください。" />
-            <CheckBox Content="全選択" Height="16" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" />
-            <CheckBox Content="お絵かきチャット" Height="16" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" />
-            <CheckBox Content="スクリーンショット" Height="16" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" />
-            <CheckBox Content="ペットキャラクターAI" Height="16" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" />
-            <CheckBox Content="キー配列・アラーム" Height="16" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" />
+            <CheckBox Content="全選択" IsChecked="{Binding AllSelectChecked}" Height="16" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding AllSelectCheckedCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            <CheckBox Content="お絵かきチャット" IsChecked="{Binding DrawChatChecked}" Height="16" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding AllCheckedCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            <CheckBox Content="スクリーンショット" IsChecked="{Binding ScreenshotChecked}" Height="16" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding AllCheckedCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            <CheckBox Content="ペットキャラクターAI" IsChecked="{Binding PetAiChecked}" Height="16" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding AllCheckedCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
+            <CheckBox Content="キー配列・アラーム" IsChecked="{Binding KeyAlermChecked}" Height="16" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding AllCheckedCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
         </StackPanel>
     </Grid>
 </Page>

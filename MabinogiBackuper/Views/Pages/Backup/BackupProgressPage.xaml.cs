@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MabinogiBackuper.Models.Backup;
 using MabinogiBackuper.ViewModels;
 
 namespace MabinogiBackuper.Views.Pages.Backup
@@ -21,9 +22,11 @@ namespace MabinogiBackuper.Views.Pages.Backup
     /// </summary>
     public partial class BackupProgressPage : Page
     {
-        public BackupProgressPage(NavigationWindowService service)
+        public BackupProgressPage(NavigationWindowService<BackupShare> service)
         {
             InitializeComponent();
+
+            DataContext = new NavigationPageViewModel(service.NavigationValue);
         }
     }
 }
