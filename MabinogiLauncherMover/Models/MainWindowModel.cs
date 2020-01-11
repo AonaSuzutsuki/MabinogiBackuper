@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommonStyleLib.Models;
-using MabinogiBackuperLib.Registry;
+using MabinogiBackuperLib.ExRegistry;
 using Prism.Mvvm;
 
 namespace MabinogiLauncherMover.Models

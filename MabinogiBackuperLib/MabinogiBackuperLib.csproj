@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="Backup\RegistryCollector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Registry\RegEdit.cs" />
+    <Compile Include="ExRegistry\RegEdit.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />
