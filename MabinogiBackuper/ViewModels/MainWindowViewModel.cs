@@ -8,6 +8,7 @@ using System.Windows.Input;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using MabinogiBackuper.Models;
+using MabinogiBackuper.Models.Backup;
 using MabinogiBackuper.Views;
 using MabinogiBackuper.Views.Pages;
 using MabinogiBackuper.Views.Pages.Backup;
@@ -49,7 +50,7 @@ namespace MabinogiBackuper.ViewModels
             var navigationModel = new NavigationBaseModel();
             WindowManageService.Show<NavigationBase>(window =>
             {
-                var service = new NavigationWindowService
+                var service = new NavigationWindowService<BackupShare>
                 {
                     Owner = window,
                     Navigation = window.MainFrame.NavigationService,
@@ -64,7 +65,7 @@ namespace MabinogiBackuper.ViewModels
                     new FinishPage(service)
                 };
                 service.Initialize();
-                var vm = new NavigationBaseViewModel(service, navigationModel);
+                var vm = new NavigationBaseViewModel<BackupShare>(service, navigationModel);
                 window.Loaded += (sender, args) => vm.Loaded.Execute(null);
                 return vm;
             });

@@ -58,7 +58,7 @@ namespace MabinogiBackuper.ViewModels
         }
     }
 
-    public class NavigationWindowService : WindowService
+    public class NavigationWindowService<T> : WindowService where T : new()
     {
         private int _currentPage;
 
@@ -66,6 +66,8 @@ namespace MabinogiBackuper.ViewModels
         public NavigationService Navigation { get; set; }
 
         public NavigationBindableValue NavigationValue { get; } = new NavigationBindableValue();
+
+        public T Share { get; set; } = new T();
 
         public void Initialize()
         {
@@ -105,9 +107,9 @@ namespace MabinogiBackuper.ViewModels
         }
     }
 
-    public class NavigationBaseViewModel : ViewModelBase
+    public class NavigationBaseViewModel<T> : ViewModelBase where T : new()
     {
-        public NavigationBaseViewModel(NavigationWindowService service, NavigationBaseModel model) : base(service, model)
+        public NavigationBaseViewModel(NavigationWindowService<T> service, NavigationBaseModel model) : base(service, model)
         {
             _navigationService = service;
 
@@ -123,7 +125,7 @@ namespace MabinogiBackuper.ViewModels
 
         #region Fields
 
-        private readonly NavigationWindowService _navigationService;
+        private readonly NavigationWindowService<T> _navigationService;
 
         #endregion
 
