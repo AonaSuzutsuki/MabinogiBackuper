@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using MabinogiBackuper.Models.Backup;
+using MabinogiBackuperLib.Backup;
 
 namespace MabinogiBackuper.ViewModels.Backup
 {
@@ -12,6 +13,8 @@ namespace MabinogiBackuper.ViewModels.Backup
     {
         public BackupProgressPageViewModel(NavigationWindowService<BackupShare> bindableValue) : base(bindableValue?.NavigationValue)
         {
+            var backuper = new Backuper();
+            backuper.CreateBackupData();
         }
 
         #region Fields

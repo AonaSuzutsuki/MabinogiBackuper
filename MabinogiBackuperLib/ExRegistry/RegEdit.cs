@@ -7,12 +7,22 @@ using Microsoft.Win32;
 
 namespace MabinogiBackuperLib.ExRegistry
 {
-    public class RegEdit
+    public interface IRegistryEditor
     {
-        public static string GetValue(string keyPath, string valueName) => 
+        string GetValue(string keyPath, string valueName);
+        string GetValue(string keyPath, string valueName, RegistryKey key);
+        string[] GetKeyNames(string keyPath);
+        string[] GetKeyNames(string keyPath, RegistryKey key);
+        void SetValue(string keyPath, string valueName, string value);
+        void SetValue(string keyPath, string valueName, string value, RegistryKey key);
+    }
+
+    public class RegistryEditor : IRegistryEditor
+    {
+        public string GetValue(string keyPath, string valueName) => 
             GetValue(keyPath, valueName, Registry.LocalMachine);
 
-        public static string GetValue(string keyPath, string valueName, RegistryKey key)
+        public string GetValue(string keyPath, string valueName, RegistryKey key)
         {
             var rKeyName = keyPath;
             var rGetValueName = valueName;
@@ -22,10 +32,10 @@ namespace MabinogiBackuperLib.ExRegistry
             return location as string;
         }
 
-        public static string[] GetKeyNames(string keyPath) =>
+        public string[] GetKeyNames(string keyPath) =>
             GetKeyNames(keyPath, Registry.CurrentUser);
 
-        public static string[] GetKeyNames(string keyPath, RegistryKey key)
+        public string[] GetKeyNames(string keyPath, RegistryKey key)
         {
             using var regKey = key.OpenSubKey(keyPath, false);
             var values = regKey?.GetValueNames();
@@ -33,10 +43,10 @@ namespace MabinogiBackuperLib.ExRegistry
         }
 
 
-        public static void SetValue(string keyPath, string valueName, string value) =>
+        public void SetValue(string keyPath, string valueName, string value) =>
             SetValue(keyPath, valueName, value, Registry.LocalMachine);
 
-        public static void SetValue(string keyPath, string valueName, string value, RegistryKey key)
+        public void SetValue(string keyPath, string valueName, string value, RegistryKey key)
         {
             using var registryKey = key.CreateSubKey(keyPath);
             registryKey?.SetValue(valueName, value);

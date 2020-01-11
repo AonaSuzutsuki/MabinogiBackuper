@@ -33,8 +33,19 @@
     <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonCoreLib">
+      <HintPath>..\Lib\CommonCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonExtensionLib">
+      <HintPath>..\Lib\CommonExtensionLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,9 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backup\MabinogiBackuper.cs" />
     <Compile Include="Backup\RegistryCollector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExRegistry\RegEdit.cs" />
+    <Compile Include="Archive\Zip.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />
@@ -53,6 +66,9 @@
   <ItemGroup>
     <Resource Include="Resources\53a1cdbf069c42.ico" />
     <Resource Include="Resources\icon-layer1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
