@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MabinogiBackuper", "Mabinog
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MabinogiLauncherMover", "MabinogiLauncherMover\MabinogiLauncherMover.csproj", "{55799096-A5BF-4AE2-89CE-47632EBEA5B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MabinogiBackuperTest", "MabinogiBackuperTest\MabinogiBackuperTest.csproj", "{6D483003-8264-44C7-9C46-996EBE2EC88B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{55799096-A5BF-4AE2-89CE-47632EBEA5B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55799096-A5BF-4AE2-89CE-47632EBEA5B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55799096-A5BF-4AE2-89CE-47632EBEA5B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D483003-8264-44C7-9C46-996EBE2EC88B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D483003-8264-44C7-9C46-996EBE2EC88B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D483003-8264-44C7-9C46-996EBE2EC88B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D483003-8264-44C7-9C46-996EBE2EC88B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
