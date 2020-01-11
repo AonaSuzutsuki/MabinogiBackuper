@@ -43,8 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backup\RegistryCollector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Registory\RegEdit.cs" />
+    <Compile Include="Registry\RegEdit.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />
@@ -53,5 +54,6 @@
     <Resource Include="Resources\53a1cdbf069c42.ico" />
     <Resource Include="Resources\icon-layer1.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

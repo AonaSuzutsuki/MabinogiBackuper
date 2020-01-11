@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
-namespace MabinogiBackuperLib.Registory
+namespace MabinogiBackuperLib.Registry
 {
     public class RegEdit
     {
@@ -14,14 +14,14 @@ namespace MabinogiBackuperLib.Registory
             var rKeyName = keyPath;
             var rGetValueName = valueName;
 
-            using var registryKey = Registry.LocalMachine.OpenSubKey(rKeyName);
+            using var registryKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(rKeyName);
             var location = registryKey?.GetValue(rGetValueName);
             return location as string;
         }
 
         public static void SetValue(string keyPath, string valueName, string value)
         {
-            using var registryKey = Registry.LocalMachine.CreateSubKey(keyPath);
+            using var registryKey = Microsoft.Win32.Registry.LocalMachine.CreateSubKey(keyPath);
             registryKey?.SetValue(valueName, value);
         }
     }
