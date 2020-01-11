@@ -23,7 +23,7 @@ namespace MabinogiBackuper.ViewModels
 
         protected NavigationBindableValue BindableValue { get; }
 
-        public virtual void RefreshLabel()
+        public virtual void RefreshValues()
         {
             BindableValue.InitDefaultValue();
         }

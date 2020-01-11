@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MabinogiBackuper.Models.Backup;
 using MabinogiBackuper.ViewModels;
+using MabinogiBackuper.ViewModels.Backup;
 
 namespace MabinogiBackuper.Views.Pages.Backup
 {
@@ -26,7 +27,7 @@ namespace MabinogiBackuper.Views.Pages.Backup
         {
             InitializeComponent();
 
-            DataContext = new NavigationPageViewModel(service.NavigationValue);
+            DataContext = new BackupProgressPageViewModel(service);
         }
     }
 }

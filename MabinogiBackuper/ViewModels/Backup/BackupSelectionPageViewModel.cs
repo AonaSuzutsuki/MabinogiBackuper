@@ -15,12 +15,15 @@ namespace MabinogiBackuper.ViewModels.Backup
     {
         public BackupSelectionPageViewModel(NavigationWindowService<BackupShare> service) : base(service?.NavigationValue)
         {
+            _service = service;
+
             AllSelectCheckedCommand = new DelegateCommand(AllSelect_Checked);
             AllCheckedCommand = new DelegateCommand(AllChecked);
         }
 
         #region Fieds
 
+        private readonly NavigationWindowService<BackupShare> _service;
         private readonly BoolCollector _collector = new BoolCollector();
 
         private bool _allSelectChecked;
@@ -42,25 +45,41 @@ namespace MabinogiBackuper.ViewModels.Backup
         public bool DrawChatChecked
         {
             get => _drawChatChecked;
-            set => SetProperty(ref _drawChatChecked, value);
+            set
+            {
+                SetProperty(ref _drawChatChecked, value);
+                _service.Share.ContainsDrawChat = value;
+            }
         }
 
         public bool ScreenshotChecked
         {
             get => _screenshotChecked;
-            set => SetProperty(ref _screenshotChecked, value);
+            set
+            {
+                SetProperty(ref _screenshotChecked, value);
+                _service.Share.ContainsScreenshot = value;
+            }
         }
 
         public bool PetAiChecked
         {
             get => _petAiChecked;
-            set => SetProperty(ref _petAiChecked, value);
+            set
+            {
+                SetProperty(ref _petAiChecked, value);
+                _service.Share.ContainsPetAi = value;
+            }
         }
 
         public bool KeyAlermChecked
         {
             get => _keyAlermChecked;
-            set => SetProperty(ref _keyAlermChecked, value);
+            set
+            {
+                SetProperty(ref _keyAlermChecked, value);
+                _service.Share.ContainsKeyAlerm = value;
+            }
         }
 
         #endregion
@@ -93,7 +112,7 @@ namespace MabinogiBackuper.ViewModels.Backup
 
         #endregion
 
-        public override void RefreshLabel()
+        public override void RefreshValues()
         {
             BindableValue.NextBtContent = "開始する";
         }

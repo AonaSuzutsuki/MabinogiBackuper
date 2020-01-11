@@ -24,6 +24,8 @@ namespace MabinogiBackuper.ViewModels
         private bool _canGoNext;
         private bool _canGoBack;
 
+        private Visibility _backBtVisibility;
+        private Visibility _nextBtVisibility;
         private Visibility _closeBtVisibility;
         private Visibility _cancelBtVisibility;
 
@@ -54,6 +56,18 @@ namespace MabinogiBackuper.ViewModels
             set => SetProperty(ref _canGoBack, value);
         }
 
+        public Visibility BackBtVisibility
+        {
+            get => _backBtVisibility;
+            set => SetProperty(ref _backBtVisibility, value);
+        }
+
+        public Visibility NextBtVisibility
+        {
+            get => _nextBtVisibility;
+            set => SetProperty(ref _nextBtVisibility, value);
+        }
+
         public Visibility CloseBtVisibility
         {
             get => _closeBtVisibility;
@@ -67,14 +81,13 @@ namespace MabinogiBackuper.ViewModels
         }
 
 
-        public NavigationBindableValue()
-        {
-            InitDefaultValue();
-        }
-
-        public void InitDefaultValue()
+        public virtual void InitDefaultValue()
         {
             NextBtContent = "次へ";
+            BackBtVisibility = Visibility.Visible;
+            NextBtVisibility = Visibility.Visible;
+            CancelBtVisibility = Visibility.Visible;
+            CloseBtVisibility = Visibility.Collapsed;
         }
     }
 
@@ -86,9 +99,15 @@ namespace MabinogiBackuper.ViewModels
         public IList<Type> Pages { get; set; }
         public NavigationService Navigation { get; set; }
 
-        public NavigationBindableValue NavigationValue { get; } = new NavigationBindableValue();
+        public NavigationBindableValue NavigationValue { get; set; }
 
         public T Share { get; set; } = new T();
+
+        public NavigationWindowService()
+        {
+            NavigationValue = new NavigationBindableValue();
+            NavigationValue.InitDefaultValue();
+        }
 
         public void Initialize()
         {
@@ -106,11 +125,7 @@ namespace MabinogiBackuper.ViewModels
             if (!cacheDictionary.ContainsKey(type))
                 cacheDictionary.Add(type, page);
 
-            if (page is Page cPage)
-            {
-                var refresh = cPage.DataContext as INavigationRefresh;
-                refresh?.RefreshLabel();
-            }
+            RefreshValues(page);
 
             _currentPage++;
             if (!Navigation.CanGoForward)
@@ -120,7 +135,7 @@ namespace MabinogiBackuper.ViewModels
 
             if (_currentPage >= Pages.Count - 1)
                 NavigationValue.CanGoNext = false;
-            NavigationValue.CanGoBack = true;
+            NavigationValue.CanGoBack = _currentPage > 0;
         }
 
         public void GoBack()
@@ -133,16 +148,22 @@ namespace MabinogiBackuper.ViewModels
 
             var type = Pages[_currentPage];
             var page = cacheDictionary.GetCallback(type, null);
-            if (page is Page cPage)
-            {
-                var refresh = cPage.DataContext as INavigationRefresh;
-                refresh?.RefreshLabel();
-            }
+            RefreshValues(page);
 
             if (Pages.Count > 1)
                 NavigationValue.CanGoNext = true;
 
             NavigationValue.CanGoBack = Navigation.CanGoBack;
+
+        }
+
+        private void RefreshValues(object page)
+        {
+            if (page is Page cPage)
+            {
+                var refresh = cPage.DataContext as INavigationRefresh;
+                refresh?.RefreshValues();
+            }
         }
     }
 
@@ -156,6 +177,8 @@ namespace MabinogiBackuper.ViewModels
             NextBtContent = service.NavigationValue.ObserveProperty(m => m.NextBtContent).ToReactiveProperty();
             BackBtIsEnabled = service.NavigationValue.ObserveProperty(m => m.CanGoBack).ToReactiveProperty();
             NextBtIsEnabled = service.NavigationValue.ObserveProperty(m => m.CanGoNext).ToReactiveProperty();
+            BackBtVisibility = service.NavigationValue.ObserveProperty(m => m.BackBtVisibility).ToReactiveProperty();
+            NextBtVisibility = service.NavigationValue.ObserveProperty(m => m.NextBtVisibility).ToReactiveProperty();
             CloseBtVisibility = service.NavigationValue.ObserveProperty(m => m.CloseBtVisibility).ToReactiveProperty();
             CancelBtVisibility = service.NavigationValue.ObserveProperty(m => m.CancelBtVisibility).ToReactiveProperty();
 
@@ -177,6 +200,8 @@ namespace MabinogiBackuper.ViewModels
 
         public ReactiveProperty<bool> BackBtIsEnabled { get; set; }
         public ReactiveProperty<bool> NextBtIsEnabled { get; set; }
+        public ReactiveProperty<Visibility> BackBtVisibility { get; set; }
+        public ReactiveProperty<Visibility> NextBtVisibility { get; set; }
         public ReactiveProperty<Visibility> CloseBtVisibility { get; set; }
         public ReactiveProperty<Visibility> CancelBtVisibility { get; set; }
 

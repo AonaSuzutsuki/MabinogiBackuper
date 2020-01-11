@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MabinogiBackuper.ViewModels
+namespace MabinogiBackuper.Models.Backup
 {
-    public interface INavigationRefresh
+    public class BackupProgressPageModel
     {
-        void RefreshValues();
     }
 }
