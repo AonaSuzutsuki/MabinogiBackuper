@@ -88,7 +88,7 @@ namespace MabinogiBackuperTest.Archive
         public void ZipItemExistsTest()
         {
             var zipItem = CreateTestData();
-            var exp = zipItem.Directories.Last().Directories.First();
+            var exp = zipItem.Files.Last().Files.First();
 
             var item = zipItem.Exists("/dir2/sub/");
 
@@ -101,14 +101,26 @@ namespace MabinogiBackuperTest.Archive
             var zipItem = CreateTestData();
 
             var exp = "dir2/sub/more.txt";
-            var path = zipItem.Directories.Last().Directories.First().Files.First().ToString();
+            var path = zipItem.Files.Last().Files.First().Files.First().ToString();
 
             Assert.AreEqual(exp, path);
         }
 
+        [Test]
+        public void HierarchyTest()
+        {
+            var zipItem = CreateTestData();
+
+            var item = zipItem.Files.Last().Files.First().Files.First();
+            var value = item.Hierarchy();
+            var exp = 3;
+
+            Assert.AreEqual(exp, value);
+        }
+
         private static void SetParent(ZipItem zipItem)
         {
-            foreach (var item in zipItem.Directories)
+            foreach (var item in zipItem.Files)
             {
                 item.Parent = zipItem;
                 SetParent(item);
