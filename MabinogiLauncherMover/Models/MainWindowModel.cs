@@ -45,9 +45,10 @@ namespace MabinogiLauncherMover.Models
 
         public void LoadFromRegistry()
         {
-            LauncherPath = RegistryEditor.GetValue(@"SOFTWARE\Nexon\Mabinogi", "Executable");
-            RootPath = RegistryEditor.GetValue(@"SOFTWARE\Nexon\Mabinogi", "RootPath");
-            IconPath = RegistryEditor.GetValue(@"SOFTWARE\Nexon\Mabinogi", "Icon");
+            var editor = new RegistryEditor();
+            LauncherPath = editor.GetValue(@"SOFTWARE\Nexon\Mabinogi", "Executable");
+            RootPath = editor.GetValue(@"SOFTWARE\Nexon\Mabinogi", "RootPath");
+            IconPath = editor.GetValue(@"SOFTWARE\Nexon\Mabinogi", "Icon");
         }
 
         public void AssignPatth(string path)
@@ -61,9 +62,10 @@ namespace MabinogiLauncherMover.Models
         {
             try
             {
-                RegistryEditor.SetValue(@"SOFTWARE\Nexon\Mabinogi", "Executable", LauncherPath);
-                RegistryEditor.SetValue(@"SOFTWARE\Nexon\Mabinogi", "RootPath", RootPath);
-                RegistryEditor.SetValue(@"SOFTWARE\Nexon\Mabinogi", "Icon", IconPath);
+                var editor = new RegistryEditor();
+                editor.SetValue(@"SOFTWARE\Nexon\Mabinogi", "Executable", LauncherPath);
+                editor.SetValue(@"SOFTWARE\Nexon\Mabinogi", "RootPath", RootPath);
+                editor.SetValue(@"SOFTWARE\Nexon\Mabinogi", "Icon", IconPath);
             }
             catch (Exception e)
             {
