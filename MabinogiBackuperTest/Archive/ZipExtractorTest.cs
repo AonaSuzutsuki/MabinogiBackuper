@@ -38,7 +38,7 @@ namespace MabinogiBackuperTest.Archive
             using var fs = new FileStream($"{TestContext.CurrentContext.TestDirectory}/TestData/test.zip", FileMode.Open, FileAccess.Read, FileShare.Read);
             using var zip = new ZipExtractor(fs);
 
-            zip.Extract("sub/TextFile2.txt", $"{TestContext.CurrentContext.TestDirectory}/out/single");
+            zip.Extract("/sub/TextFile2.txt", $"{TestContext.CurrentContext.TestDirectory}/out/single");
         }
 
         [Test]

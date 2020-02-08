@@ -17,7 +17,7 @@ namespace MabinogiBackuperTest.Archive
             {
                 ZipItemType = ItemType.Root,
                 Name = "root",
-                Files = 
+                Directories = 
                 {
                     new ZipItem
                     {
@@ -26,7 +26,7 @@ namespace MabinogiBackuperTest.Archive
                     new ZipItem
                     {
                         Name = "dir2",
-                        Files =
+                        Directories =
                         {
                             new ZipItem
                             {
@@ -59,7 +59,7 @@ namespace MabinogiBackuperTest.Archive
             var exp = new ZipItem
             {
                 ZipItemType = ItemType.File,
-                Parent = zipItem.Exists("/dir2/sub"),
+                Parent = zipItem.Exists("/dir2/sub/"),
                 Name = "test.zip"
             };
 
@@ -88,7 +88,7 @@ namespace MabinogiBackuperTest.Archive
         public void ZipItemExistsTest()
         {
             var zipItem = CreateTestData();
-            var exp = zipItem.Files.Last().Files.First();
+            var exp = zipItem.Directories.Last().Directories.First();
 
             var item = zipItem.Exists("/dir2/sub/");
 
@@ -101,7 +101,7 @@ namespace MabinogiBackuperTest.Archive
             var zipItem = CreateTestData();
 
             var exp = "dir2/sub/more.txt";
-            var path = zipItem.Files.Last().Files.First().Files.First().ToString();
+            var path = zipItem.Directories.Last().Directories.First().Files.First().ToString();
 
             Assert.AreEqual(exp, path);
         }
@@ -111,7 +111,7 @@ namespace MabinogiBackuperTest.Archive
         {
             var zipItem = CreateTestData();
 
-            var item = zipItem.Files.Last().Files.First().Files.First();
+            var item = zipItem.Directories.Last().Directories.First().Files.First();
             var value = item.Hierarchy();
             var exp = 3;
 
@@ -120,10 +120,15 @@ namespace MabinogiBackuperTest.Archive
 
         private static void SetParent(ZipItem zipItem)
         {
-            foreach (var item in zipItem.Files)
+            foreach (var item in zipItem.Directories)
             {
                 item.Parent = zipItem;
                 SetParent(item);
+            }
+
+            foreach (var file in zipItem.Files)
+            {
+                file.Parent = zipItem;
             }
         }
     }

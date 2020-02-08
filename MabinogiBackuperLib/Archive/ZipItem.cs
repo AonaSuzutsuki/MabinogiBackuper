@@ -26,6 +26,9 @@ namespace MabinogiBackuperLib.Archive
         public ItemType ZipItemType { get; set; } = ItemType.Directory;
         public ZipItem Parent { get; set; }
         public List<ZipItem> Files { get; set; } = new List<ZipItem>();
+
+        public List<ZipItem> Directories { get; set; } = new List<ZipItem>();
+
         public string Name { get; set; }
 
         public ZipArchiveEntry ZipEntry { get; set; }
@@ -53,7 +56,7 @@ namespace MabinogiBackuperLib.Archive
                 return zipItem;
 
             var path = queue.Dequeue();
-            foreach (var item in zipItem.Files)
+            foreach (var item in zipItem.Directories)
             {
                 if (item.Name == path)
                 {
@@ -67,7 +70,7 @@ namespace MabinogiBackuperLib.Archive
                 Parent = zipItem,
                 Name = path
             };
-            zipItem.Files.Add(newItem);
+            zipItem.Directories.Add(newItem);
             return AppendItem(queue, newItem);
         }
 
@@ -80,8 +83,19 @@ namespace MabinogiBackuperLib.Archive
 
             var list = new List<string>(path.Split('/'));
             var list2 = (from x in list where !string.IsNullOrEmpty(x) select x).ToList();
-            var queue = new Queue<string>(list2);
-            return DirectoryExists(queue, this);
+
+            if (type == SearchType.Directory)
+            {
+                var queue = new Queue<string>(list2);
+                return DirectoryExists(queue, this);
+            }
+            else
+            {
+                var fileName = list2[list2.Count - 1];
+                list2.RemoveAt(list2.Count - 1);;
+                var queue = new Queue<string>(list2);
+                return FileExists(queue, fileName, this);
+            }
         }
 
         public ZipItem DirectoryExists(Queue<string> pathQueue, ZipItem zipItem)
@@ -92,7 +106,7 @@ namespace MabinogiBackuperLib.Archive
             if (pathQueue.Count > 0)
             {
                 var path = pathQueue.Dequeue();
-                foreach (var item in zipItem.Files)
+                foreach (var item in zipItem.Directories)
                 {
                     if (item.Name == path)
                         return item.DirectoryExists(pathQueue, item);
@@ -104,36 +118,29 @@ namespace MabinogiBackuperLib.Archive
             return zipItem;
         }
 
-        //public ZipItem FileExists(Queue<string> pathQueue, ZipItem zipItem)
-        //{
-        //    if (zipItem == null)
-        //        return null;
+        public ZipItem FileExists(Queue<string> pathQueue, string fileName, ZipItem zipItem)
+        {
+            if (zipItem == null)
+                return null;
 
-        //    if (pathQueue.Count > 0)
-        //    {
-        //        var path = pathQueue.Dequeue();
-        //        if (pathQueue.Count > 0)
-        //        {
-        //            foreach (var item in zipItem.Directories)
-        //            {
-        //                if (item.Name == path)
-        //                    return item.DirectoryExists(pathQueue, item);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            foreach (var item in zipItem.Files)
-        //            {
-        //                if (item.Name == path)
-        //                    return item;
-        //            }
-        //        }
+            if (pathQueue.Count > 0)
+            {
+                var path = pathQueue.Dequeue();
+                foreach (var item in zipItem.Directories)
+                {
+                    if (item.Name == path)
+                        zipItem = item.DirectoryExists(pathQueue, item);
+                }
+            }
 
-        //        return null;
-        //    }
+            foreach (var item in zipItem.Files)
+            {
+                if (item.Name == fileName)
+                    return item;
+            }
 
-        //    return zipItem;
-        //}
+            return null;
+        }
 
         public int Hierarchy(ZipItem zipItem, int hierarchy)
         {
