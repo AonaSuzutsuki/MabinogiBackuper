@@ -142,6 +142,21 @@ namespace MabinogiBackuperLib.Archive
             return null;
         }
 
+        public int FileCount(ZipItem zipItem)
+        {
+            var cnt = zipItem.Files.Count;
+            foreach (var directory in zipItem.Directories)
+            {
+                cnt += FileCount(directory);
+            }
+
+            return cnt;
+        }
+        public int FileCount()
+        {
+            return FileCount(this);
+        }
+
         public int Hierarchy(ZipItem zipItem, int hierarchy)
         {
             var parent = zipItem.Parent;

@@ -21,7 +21,15 @@ namespace MabinogiBackuperTest.Archive
                 {
                     new ZipItem
                     {
-                        Name = "dir"
+                        Name = "dir",
+                        Files =
+                        {
+                            new ZipItem
+                            {
+                                ZipItemType = ItemType.File,
+                                Name = "more.txt"
+                            }
+                        }
                     },
                     new ZipItem
                     {
@@ -116,6 +124,16 @@ namespace MabinogiBackuperTest.Archive
             var exp = 3;
 
             Assert.AreEqual(exp, value);
+        }
+
+        [Test]
+        public void FileCountTest()
+        {
+            var zipItem = CreateTestData();
+            var cnt = zipItem.FileCount();
+            var exp = 2;
+
+            Assert.AreEqual(exp, cnt);
         }
 
         private static void SetParent(ZipItem zipItem)
