@@ -38,7 +38,15 @@ namespace MabinogiBackuperTest.Archive
             using var fs = new FileStream($"{TestContext.CurrentContext.TestDirectory}/TestData/test.zip", FileMode.Open, FileAccess.Read, FileShare.Read);
             using var zip = new ZipExtractor(fs);
 
+
+            var di = new DirectoryInfo($"{TestContext.CurrentContext.TestDirectory}/out/single");
+            if (di.Exists)
+                di.Delete(true);
+
             zip.Extract("/sub/TextFile2.txt", $"{TestContext.CurrentContext.TestDirectory}/out/single");
+
+            var act = File.Exists($"{TestContext.CurrentContext.TestDirectory}/out/single/TextFile2.txt");
+            Assert.AreEqual(true, act);
         }
 
         [Test]
@@ -47,7 +55,15 @@ namespace MabinogiBackuperTest.Archive
             using var fs = new FileStream($"{TestContext.CurrentContext.TestDirectory}/TestData/test.zip", FileMode.Open, FileAccess.Read, FileShare.Read);
             using var zip = new ZipExtractor(fs);
 
+            var di = new DirectoryInfo($"{TestContext.CurrentContext.TestDirectory}/out/root");
+            if (di.Exists)
+                di.Delete(true);
+
             zip.Extract("/", $"{TestContext.CurrentContext.TestDirectory}/out/root");
+
+            Assert.AreEqual(true, File.Exists($"{TestContext.CurrentContext.TestDirectory}/out/root/TextFile1.txt"));
+            Assert.AreEqual(true, File.Exists($"{TestContext.CurrentContext.TestDirectory}/out/root/sub/TextFile2.txt"));
+            Assert.AreEqual(true, File.Exists($"{TestContext.CurrentContext.TestDirectory}/out/root/sub/subsub/TextFile3.txt"));
         }
     }
 }

@@ -138,6 +138,7 @@ namespace MabinogiBackuperLib.Archive
         public class ExtractProgressEventArgs : EventArgs
         {
             public int Total { get; set; }
+            public int Current { get; set; }
             public string FilePath { get; set; }
         }
 
@@ -209,15 +210,21 @@ namespace MabinogiBackuperLib.Archive
 
             if (item.ZipItemType == ItemType.File)
             {
-                Extract(item.Parent, item, extractDirPath);
+                Extract(item.Parent, item, extractDirPath, new ExtractProgressEventArgs
+                {
+                    Total = item.FileCount()
+                });
             }
             else
             {
-                Extract(item, item, extractDirPath);
+                Extract(item, item, extractDirPath, new ExtractProgressEventArgs
+                {
+                    Total = item.FileCount()
+                });
             }
         }
 
-        public void Extract(ZipItem root, ZipItem zipItem, string extractDirPath)
+        public void Extract(ZipItem root, ZipItem zipItem, string extractDirPath, ExtractProgressEventArgs eventArgs)
         {
             if (zipItem == null)
                 return;
@@ -239,13 +246,24 @@ namespace MabinogiBackuperLib.Archive
                 if (!di.Exists)
                     di.Create();
                 if (!File.Exists(fullPath))
+                {
                     entry.ExtractToFile(fullPath);
+
+                    eventArgs.Current += 1;
+                    eventArgs.FilePath += entry.FullName;
+                    OnExtracted(eventArgs);
+                }
             }
             else
             {
                 foreach (var zipItemFile in zipItem.Files)
                 {
-                    Extract(root, zipItemFile, extractDirPath);
+                    Extract(root, zipItemFile, extractDirPath, eventArgs);
+                }
+
+                foreach (var directory in zipItem.Directories)
+                {
+                    Extract(root, directory, extractDirPath, eventArgs);
                 }
             }
         }
