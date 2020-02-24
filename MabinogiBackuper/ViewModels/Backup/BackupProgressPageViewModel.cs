@@ -1,31 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using MabinogiBackuper.Models.Backup;
+using MabinogiBackuperLib.Archive;
 using MabinogiBackuperLib.Backup;
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace MabinogiBackuper.ViewModels.Backup
 {
     public class BackupProgressPageViewModel : NavigationPageViewModelBase
     {
-        public BackupProgressPageViewModel(NavigationWindowService<BackupShare> bindableValue) : base(bindableValue?.NavigationValue)
+        public BackupProgressPageViewModel(NavigationWindowService<BackupShare> bindableValue, BackupProgressPageModel model) : base(bindableValue?.NavigationValue)
         {
-            var backuper = new Backuper();
-            backuper.CreateBackupData();
+            _model = model;
+
+            ProgressLabel = model.ObserveProperty(m => m.ProgressLabel).ToReactiveProperty();
+            ProgressValue = model.ObserveProperty(m => m.ProgressValue).ToReactiveProperty();
+
+            Loaded();
         }
 
         #region Fields
 
-
+        private readonly BackupProgressPageModel _model;
 
         #endregion
 
         #region Properties
 
-
+        public ReactiveProperty<int> ProgressValue { get; set; }
+        public ReactiveProperty<string> ProgressLabel { get; set; }
 
         #endregion
 
@@ -37,7 +46,10 @@ namespace MabinogiBackuper.ViewModels.Backup
 
         #region Event Mehods
 
-        
+        private void Loaded()
+        {
+            _model.Analyze();
+        }
 
         #endregion
 

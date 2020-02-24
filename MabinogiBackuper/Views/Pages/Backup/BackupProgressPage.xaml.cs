@@ -27,7 +27,7 @@ namespace MabinogiBackuper.Views.Pages.Backup
         {
             InitializeComponent();
 
-            DataContext = new BackupProgressPageViewModel(service);
+            DataContext = new BackupProgressPageViewModel(service, new BackupProgressPageModel(service.Share));
         }
     }
 }

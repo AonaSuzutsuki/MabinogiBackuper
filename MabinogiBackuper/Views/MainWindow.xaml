@@ -60,7 +60,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Image>
-                <Label Content="Mabinogi Backuper" Style="{DynamicResource ResourceKey=StatTitle}" />
+                <Label Content="Mabinogi Backupper" Style="{DynamicResource ResourceKey=StatTitle}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5"
                         HorizontalAlignment="Right"

@@ -31,6 +31,8 @@ namespace MabinogiBackuper.ViewModels.Backup
         private bool _screenshotChecked;
         private bool _petAiChecked;
         private bool _keyAlermChecked;
+        private bool _interactionChecked;
+        private bool _movieChecked;
 
         #endregion
 
@@ -82,6 +84,26 @@ namespace MabinogiBackuper.ViewModels.Backup
             }
         }
 
+        public bool InteractionChecked
+        {
+            get => _interactionChecked;
+            set
+            {
+                SetProperty(ref _interactionChecked, value);
+                _service.Share.ContainsInteraction = value;
+            }
+        }
+
+        public bool MovieChecked
+        {
+            get => _movieChecked;
+            set
+            {
+                SetProperty(ref _movieChecked, value);
+                _service.Share.ContainsMovie = value;
+            }
+        }
+
         #endregion
 
         #region Event Methods
@@ -99,6 +121,8 @@ namespace MabinogiBackuper.ViewModels.Backup
             ScreenshotChecked = AllSelectChecked;
             PetAiChecked = AllSelectChecked;
             KeyAlermChecked = AllSelectChecked;
+            InteractionChecked = AllSelectChecked;
+            MovieChecked = AllSelectChecked;
         }
 
         public void AllChecked()
@@ -107,6 +131,8 @@ namespace MabinogiBackuper.ViewModels.Backup
             _collector.ChangeBool(nameof(ScreenshotChecked), ScreenshotChecked);
             _collector.ChangeBool(nameof(PetAiChecked), PetAiChecked);
             _collector.ChangeBool(nameof(KeyAlermChecked), KeyAlermChecked);
+            _collector.ChangeBool(nameof(InteractionChecked), InteractionChecked);
+            _collector.ChangeBool(nameof(MovieChecked), MovieChecked);
             AllSelectChecked = _collector.Value;
         }
 

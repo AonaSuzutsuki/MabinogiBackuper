@@ -48,7 +48,7 @@ namespace MabinogiBackuper.ViewModels
         public void OpenBackup()
         {
             var navigationModel = new NavigationBaseModel();
-            WindowManageService.Show<NavigationBase>(window =>
+            WindowManageService.ShowDialog<NavigationBase>(window =>
             {
                 var service = new NavigationWindowService<BackupShare>
                 {
@@ -63,7 +63,7 @@ namespace MabinogiBackuper.ViewModels
                         typeof(FinishPage)
                     }
                 };
-                service.NavigationValue.WindowTitle = "Mabinogi Backuper - バックアップ";;
+                service.NavigationValue.WindowTitle = "Mabinogi Backupper - バックアップ";;
                 service.Initialize();
                 var vm = new NavigationBaseViewModel<BackupShare>(service, navigationModel);
                 window.Loaded += (sender, args) => vm.Loaded.Execute(null);
