@@ -17,8 +17,10 @@ namespace MabinogiBackuper.ViewModels.Backup
         public DestSavePageViewModel(NavigationWindowService<BackupShare> service) : base(service?.NavigationValue)
         {
             _service = service;
+            _service.NavigationValue.CanGoNext = false;
 
             GetSavedPathCommand = new DelegateCommand(GetSavedPath);
+            TextChangedCommand = new DelegateCommand(TextChanged);
         }
 
         #region Fields
@@ -47,6 +49,8 @@ namespace MabinogiBackuper.ViewModels.Backup
 
         public ICommand GetSavedPathCommand { get; set; }
 
+        public ICommand TextChangedCommand { get; set; }
+
         #endregion
 
         #region Event Methods
@@ -59,6 +63,11 @@ namespace MabinogiBackuper.ViewModels.Backup
             {
                 SavedPath = path;
             }
+        }
+
+        public void TextChanged()
+        {
+            _service.NavigationValue.CanGoNext = !string.IsNullOrEmpty(SavedPath);
         }
 
         #endregion

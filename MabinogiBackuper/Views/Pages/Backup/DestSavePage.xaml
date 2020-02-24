@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:local="clr-namespace:MabinogiBackuper.Views.Pages.Backup"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -28,7 +29,13 @@
                         <ColumnDefinition Width="25" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBox Text="{Binding SavedPath}" />
+                    <TextBox Text="{Binding SavedPath, UpdateSourceTrigger=PropertyChanged}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TextChanged">
+                                <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
 
                     <Button Grid.Column="2" Content="..." Style="{StaticResource FlatButton}" Command="{Binding GetSavedPathCommand}" />
 
