@@ -111,11 +111,13 @@
     </ApplicationDefinition>
     <Compile Include="Models\Backup\BackupProgressPageModel.cs" />
     <Compile Include="Models\Backup\BackupShare.cs" />
+    <Compile Include="Models\Backup\SizeCalcPageModel.cs" />
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Models\NavigationBaseModel.cs" />
     <Compile Include="ViewModels\Backup\BackupProgressPageViewModel.cs" />
     <Compile Include="ViewModels\Backup\BackupSelectionPageViewModel.cs" />
     <Compile Include="ViewModels\Backup\DestSavePageViewModel.cs" />
+    <Compile Include="ViewModels\Backup\SizeCalcPageViewModel.cs" />
     <Compile Include="ViewModels\INavigationRefresh.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\NavigationBaseViewModel.cs" />
@@ -137,6 +139,9 @@
     </Compile>
     <Compile Include="Views\Pages\Backup\FirstPage.xaml.cs">
       <DependentUpon>FirstPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Backup\SizeCalcPage.xaml.cs">
+      <DependentUpon>SizeCalcPage.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\BackupWindow.xaml">
       <SubType>Designer</SubType>
@@ -178,6 +183,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\Backup\FirstPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Backup\SizeCalcPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

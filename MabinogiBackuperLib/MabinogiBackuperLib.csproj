@@ -82,6 +82,7 @@
     <Compile Include="Backup\MabinogiBackuper.cs" />
     <Compile Include="Backup\RegistryCollector.cs" />
     <Compile Include="Boolean\BoolCounter.cs" />
+    <Compile Include="FileFunctions\FileSize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExRegistry\RegEdit.cs" />
     <Compile Include="Archive\Zip.cs" />

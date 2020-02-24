@@ -59,6 +59,11 @@ namespace MabinogiBackuperLib.Backup
             _files = list;
         }
 
+        public ulong CalculatedSize()
+        {
+            return FileFunctions.FileSize.TotalFileSize(_files);
+        }
+
         public void Backup(Stream savedStream)
         {
             using (var zip = new ZipConsolidator(savedStream))

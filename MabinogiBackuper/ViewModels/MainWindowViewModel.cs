@@ -59,6 +59,7 @@ namespace MabinogiBackuper.ViewModels
                         typeof(FirstPage),
                         typeof(DestSavePage),
                         typeof(BackupSelectionPage),
+                        typeof(SizeCalcPage),
                         typeof(BackupProgressPage),
                         typeof(FinishPage)
                     }

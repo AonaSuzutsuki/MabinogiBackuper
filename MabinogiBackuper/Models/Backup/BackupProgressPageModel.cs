@@ -39,15 +39,9 @@ namespace MabinogiBackuper.Models.Backup
         public BackupProgressPageModel(BackupShare share)
         {
             _share = share;
-            var totalPhase = 3;
-            totalPhase = share.CheckedCount() > 0 ? totalPhase : totalPhase - 1;
 
-            _backupper.CreateRegistryBackupProgress.Subscribe(
-                onNext: args => ProgressChanged(ProgressMode.Analyze, args, 1, totalPhase));
-            _backupper.BackupFileAnalyzeProgress.Subscribe(
-                onNext: args => ProgressChanged(ProgressMode.Analyze, args, 2, totalPhase));
             _backupper.BackupProgress.Subscribe(
-                onNext: args => ProgressChanged(ProgressMode.Analyze, args, 3, totalPhase));
+                onNext: args => ProgressChanged(ProgressMode.Backup, args, 1, 1));
         }
 
         public void Analyze()
@@ -57,10 +51,6 @@ namespace MabinogiBackuper.Models.Backup
 
             Task.Factory.StartNew(() =>
             {
-                _backupper.CreateRegistryBackup();
-
-                var targetDirs = _share.CheckedPathList();
-                _backupper.BackupFilePathItems(targetDirs);
 
                 using (var fs = new FileStream(_share.SavedPath, FileMode.Create, FileAccess.Write, FileShare.None))
                 {
