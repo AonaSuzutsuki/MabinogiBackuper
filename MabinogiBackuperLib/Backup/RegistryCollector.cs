@@ -21,7 +21,7 @@ namespace MabinogiBackuperLib.Backup
     {
         public int Total { get; set; }
         public int Current { get; set; }
-        public int Percentage => (int)((double)Current / Total * 100);
+        public int Percentage => (int)Math.Round((double)Current / Total * 100);
         public string Name { get; set; }
     }
 
@@ -31,7 +31,7 @@ namespace MabinogiBackuperLib.Backup
 
         public IRegistryEditor RegistryEditor { get; set; } = new RegistryEditor();
 
-        private static Dictionary<string, string> Analyze(IRegistryEditor registryEditor, Action<RegistryEventArgs> callBack)
+        private static Dictionary<string, string> Analyze(IRegistryEditor registryEditor, Action<IProgressEventArgs> callBack)
         {
             var keyNames = registryEditor.GetKeyNames(RegistryPath);
             var table = new Dictionary<string, string>(keyNames.Length);
@@ -49,7 +49,7 @@ namespace MabinogiBackuperLib.Backup
             return table;
         }
 
-        public string GetJson(Action<RegistryEventArgs> callBack)
+        public string GetJson(Action<IProgressEventArgs> callBack)
         {
             var table = Analyze(RegistryEditor, callBack);
             return JsonConvert.SerializeObject(table);

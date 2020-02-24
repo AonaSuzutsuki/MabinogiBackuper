@@ -57,7 +57,7 @@ namespace MabinogiBackuper.ViewModels.Backup
 
         public void GetSavedPath()
         {
-            var path = FileSelector.GetFilePath("C:\\", "All Files (*.dat)|*.dat", "MabinogiBackup.dat",
+            var path = FileSelector.GetFilePath(CommonCoreLib.AppInfo.GetAppPath(), "All Files (*.dat)|*.dat", "MabinogiBackup.dat",
                 FileSelector.FileSelectorType.Write);
             if (!string.IsNullOrEmpty(path))
             {

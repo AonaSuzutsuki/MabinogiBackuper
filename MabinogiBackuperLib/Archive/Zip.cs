@@ -8,9 +8,18 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using CommonCoreLib.CommonPath;
+using MabinogiBackuperLib.Backup;
 
 namespace MabinogiBackuperLib.Archive
 {
+    public class ZipConsidateEventArgs : IProgressEventArgs
+    {
+        public int Total { get; set; }
+        public int Current { get; set; }
+        public int Percentage => (int)Math.Round((double)Current / Total * 100);
+        public string Name { get; set; }
+    }
+
     public class ZipConsolidator : IDisposable
     {
 
@@ -24,24 +33,6 @@ namespace MabinogiBackuperLib.Archive
 
         #endregion
 
-        #region Event
-        public class ConsolidateProgressEventArgs : EventArgs
-        {
-            public int Total { get; set; }
-            public int Current { get; set; }
-            public int Percentage => (Current / Total) * 100;
-            public string FilePath { get; set; }
-        }
-
-        public delegate void ConsolidateProgressChangedEventHandler(object sender, ConsolidateProgressEventArgs e);
-
-        public event ConsolidateProgressChangedEventHandler Consolidated;
-        protected virtual void OnConsolidated(ConsolidateProgressEventArgs e)
-        {
-            Consolidated?.Invoke(this, e);
-        }
-        #endregion
-
         public ZipConsolidator(Stream destinationStream, CompressionLevel level = CompressionLevel.Fastest)
         {
             _destinationStream = destinationStream;
@@ -49,7 +40,7 @@ namespace MabinogiBackuperLib.Archive
             _archive = new ZipArchive(destinationStream, ZipArchiveMode.Create, true);
         }
 
-        public void Consolidate(IEnumerable<string> files, string basePath)
+        public void Consolidate(IEnumerable<string> files, string basePath, Action<IProgressEventArgs> callback)
         {
             var filesArray = files as string[] ?? files.ToArray();
             var entries = (from file in filesArray select CreateEntryName(file, basePath)).ToArray();
@@ -57,18 +48,18 @@ namespace MabinogiBackuperLib.Archive
             foreach (var tuple in tuples.Select((v, i) => new { Index = i, Value = v }))
             {
                 Consolidate(tuple.Value.File, tuple.Value.Entry);
-                OnConsolidated(new ConsolidateProgressEventArgs
+                callback?.Invoke(new ZipConsidateEventArgs
                 {
                     Total = tuples.Length,
                     Current = tuple.Index + 1,
-                    FilePath = tuple.Value.File
+                    Name = tuple.Value.File
                 });
             }
         }
 
-        public void Consolidate(string file, string entry)
+        public void Consolidate(string file, string entryName)
         {
-            _archive.CreateEntryFromFile(file, entry, _compressionLevel);
+            _archive.CreateEntryFromFile(file, entryName, _compressionLevel);
         }
 
         public void Dispose()
@@ -83,7 +74,7 @@ namespace MabinogiBackuperLib.Archive
             var ms = new MemoryStream();
             using (var zip = new ZipConsolidator(ms))
             {
-                zip.Consolidate(files, basePath);
+                zip.Consolidate(files, basePath, null);
             }
 
             ms.Seek(0, SeekOrigin.Begin);

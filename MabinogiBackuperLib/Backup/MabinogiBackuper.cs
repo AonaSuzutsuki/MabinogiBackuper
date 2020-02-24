@@ -13,7 +13,7 @@ namespace MabinogiBackuperLib.Backup
     {
         public int Total { get; set; }
         public int Current { get; set; }
-        public int Percentage => (int)((double)Current / Total * 100);
+        public int Percentage => (int)Math.Round((double)Current / Total * 100);
         public string Name { get; set; }
     }
 
@@ -22,11 +22,13 @@ namespace MabinogiBackuperLib.Backup
 
         public RegistryCollector RegistryCollector { get; set; } = new RegistryCollector();
 
-        public IObservable<RegistryEventArgs> CreateRegistryBackupProgress => _createRegistryBackupProgress;
-        public IObservable<BackupProgressEventArgs> BackupFileAnalyzeProgress => _backupFileAnalyzeProgress;
+        public IObservable<IProgressEventArgs> CreateRegistryBackupProgress => _createRegistryBackupProgress;
+        public IObservable<IProgressEventArgs> BackupFileAnalyzeProgress => _backupFileAnalyzeProgress;
+        public IObservable<IProgressEventArgs> BackupProgress => _backupProgress;
 
-        private readonly Subject<RegistryEventArgs> _createRegistryBackupProgress = new Subject<RegistryEventArgs>();
-        private readonly Subject<BackupProgressEventArgs> _backupFileAnalyzeProgress = new Subject<BackupProgressEventArgs>();
+        private readonly Subject<IProgressEventArgs> _createRegistryBackupProgress = new Subject<IProgressEventArgs>();
+        private readonly Subject<IProgressEventArgs> _backupFileAnalyzeProgress = new Subject<IProgressEventArgs>();
+        private readonly Subject<IProgressEventArgs> _backupProgress = new Subject<IProgressEventArgs>();
         private readonly string _personalDirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
         private List<string> _files = new List<string>();
@@ -57,16 +59,12 @@ namespace MabinogiBackuperLib.Backup
             _files = list;
         }
 
-        public MemoryStream BackupMemoryStream()
+        public void Backup(Stream savedStream)
         {
-            var ms = new MemoryStream();
-            using (var zip = new ZipConsolidator(ms))
+            using (var zip = new ZipConsolidator(savedStream))
             {
-                zip.Consolidate(_files, _personalDirectoryPath);
+                zip.Consolidate(_files, _personalDirectoryPath, _backupProgress.OnNext);
             }
-
-            ms.Seek(0, SeekOrigin.Begin);
-            return ms;
         }
     }
 }
