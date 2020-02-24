@@ -59,7 +59,32 @@ namespace MabinogiBackuperLib.Archive
 
         public void Consolidate(string file, string entryName)
         {
-            _archive.CreateEntryFromFile(file, entryName, _compressionLevel);
+            var fi = new FileInfo(file);
+            if (fi.Length >= 128 * 1024 * 1024)
+            {
+                var entry = _archive.CreateEntry(entryName, _compressionLevel);
+
+                var buffer = new byte[128 * 1024 * 1024];
+                using (var fs = new FileStream(file, FileMode.Open))
+                {
+                    using (var stream = entry.Open())
+                    {
+                        var copying = true;
+                        while (copying)
+                        {
+                            var bytesRead = fs.Read(buffer, 0, buffer.Length);
+                            if (bytesRead > 0)
+                                stream.Write(buffer, 0, bytesRead);
+                            else
+                                copying = false;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                _archive.CreateEntryFromFile(file, entryName, _compressionLevel);
+            }
         }
 
         public void Dispose()
