@@ -184,6 +184,7 @@ namespace MabinogiBackuper.ViewModels
 
             BackBtCommand = new DelegateCommand(GoBack);
             NextBtCommand = new DelegateCommand(GoNext);
+            CloseBtCommand = new DelegateCommand(Close);
         }
 
         #region Fields
@@ -211,6 +212,7 @@ namespace MabinogiBackuper.ViewModels
 
         public ICommand BackBtCommand { get; set; }
         public ICommand NextBtCommand { get; set; }
+        public ICommand CloseBtCommand { get; set; }
 
         #endregion
 
@@ -230,6 +232,11 @@ namespace MabinogiBackuper.ViewModels
         public void GoNext()
         {
             _navigationService.GoNext();
+        }
+
+        public void Close()
+        {
+            base.MainWindowCloseBt_Click();
         }
 
         #endregion
