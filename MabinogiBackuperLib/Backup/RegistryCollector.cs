@@ -38,7 +38,7 @@ namespace MabinogiBackuperLib.Backup
             foreach (var item in keyNames.Select((v, i) => new {Index = i, Value = v}))
             {
                 table.Put(item.Value, registryEditor.GetValue(RegistryPath, item.Value, Registry.CurrentUser));
-                callBack(new RegistryEventArgs
+                callBack?.Invoke(new RegistryEventArgs
                 {
                     Total = keyNames.Length,
                     Current = item.Index + 1,

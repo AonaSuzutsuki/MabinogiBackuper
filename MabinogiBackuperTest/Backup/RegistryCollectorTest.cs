@@ -34,7 +34,7 @@ namespace MabinogiBackuperTest.Backup
             {
                 RegistryEditor = regEdit
             };
-            var json = collector.GetJson();
+            var json = collector.GetJson(null);
 
             Assert.AreEqual(exp, json);
         }
