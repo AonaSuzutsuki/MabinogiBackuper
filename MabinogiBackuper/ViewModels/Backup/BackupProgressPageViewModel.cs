@@ -22,7 +22,7 @@ namespace MabinogiBackuper.ViewModels.Backup
             ProgressLabel = model.ObserveProperty(m => m.ProgressLabel).ToReactiveProperty();
             ProgressValue = model.ObserveProperty(m => m.ProgressValue).ToReactiveProperty();
 
-            Loaded();
+            _ = Loaded();
         }
 
         #region Fields
@@ -46,9 +46,11 @@ namespace MabinogiBackuper.ViewModels.Backup
 
         #region Event Mehods
 
-        private void Loaded()
+        private async Task Loaded()
         {
-            _model.Analyze();
+            await _model.Analyze();
+
+            BindableValue.CloseBtVisibility = Visibility.Visible;
         }
 
         #endregion

@@ -18,12 +18,8 @@ namespace MabinogiBackuper.ViewModels.Backup
         public SizeCalcPageViewModel(NavigationWindowService<BackupShare> bindableValue, SizeCalcPageModel model)
             : base(bindableValue?.NavigationValue)
         {
+            _share = bindableValue?.Share;
             _model = model;
-            _service = bindableValue;
-
-            _service.NavigationValue.BackBtVisibility = Visibility.Collapsed;
-            _service.NavigationValue.CancelBtVisibility = Visibility.Collapsed;
-            _service.NavigationValue.NextBtVisibility = Visibility.Collapsed;
 
             ProgressVisibility = model.ObserveProperty(m => m.ProgressVisibility).ToReactiveProperty();
             MessageVisibility = model.ObserveProperty(m => m.MessageVisibility).ToReactiveProperty();
@@ -36,7 +32,7 @@ namespace MabinogiBackuper.ViewModels.Backup
 
         #region Fields
 
-        private readonly NavigationWindowService<BackupShare> _service;
+        private readonly BackupShare _share;
         private readonly SizeCalcPageModel _model;
 
         #endregion
@@ -61,18 +57,27 @@ namespace MabinogiBackuper.ViewModels.Backup
 
         public void Loaded()
         {
-            if (_service.Share.IsChanged)
+            if (_share.IsChanged)
                 _ = Analyze();
-            _service.Share.IsChanged = false;
+            _share.IsChanged = false;
         }
 
         public async Task Analyze()
         {
             await _model.Analyze();
 
-            _service.NavigationValue.BackBtVisibility = Visibility.Visible;
-            _service.NavigationValue.CancelBtVisibility = Visibility.Visible;
-            _service.NavigationValue.NextBtVisibility = Visibility.Visible;
+            BindableValue.BackBtVisibility = Visibility.Visible;
+            BindableValue.CancelBtVisibility = Visibility.Visible;
+            BindableValue.NextBtVisibility = Visibility.Visible;
+        }
+
+        public override void RefreshValues()
+        {
+            BindableValue.InitDefaultValue();
+            BindableValue.NextBtContent = "開始する";
+            BindableValue.BackBtVisibility = Visibility.Collapsed;
+            BindableValue.CancelBtVisibility = Visibility.Collapsed;
+            BindableValue.NextBtVisibility = Visibility.Collapsed;
         }
 
         #endregion

@@ -91,8 +91,26 @@ namespace MabinogiBackuper.Models.Backup
 
         private void Completed()
         {
-            var gigaBytes = ((double)_share.AnalyzedSize / 1024 / 1024 / 1024);
-            Message = $"バックアップには少なくとも {gigaBytes:0.000} GB の空き容量が必要です。";
+            var bytes = _share.AnalyzedSize;
+            var calcBytes = (double)bytes;
+            var byteString = "Bytes";
+            if (bytes > 1073741824)
+            {
+                calcBytes = ((double)bytes / 1024 / 1024 / 1024);
+                byteString = "GB";
+            }
+            else if (bytes > 1048576)
+            {
+                calcBytes = ((double)bytes / 1024 / 1024);
+                byteString = "MB";
+            }
+            else if (bytes > 1024)
+            {
+                calcBytes = ((double)bytes / 1024);
+                byteString = "KB";
+            }
+
+            Message = $"バックアップには少なくとも {calcBytes:0.000} {byteString} の空き容量が必要です。";
 
             _share.IsAnalyzed = true;
             ProgressVisibility = Visibility.Hidden;

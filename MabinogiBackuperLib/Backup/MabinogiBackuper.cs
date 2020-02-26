@@ -61,7 +61,7 @@ namespace MabinogiBackuperLib.Backup
 
         public ulong CalculatedSize()
         {
-            return FileFunctions.FileSize.TotalFileSize(_files);
+            return FileFunctions.FileSize.TotalFileSize(_files) + (ulong)_registryJson.Length;
         }
 
         public void Backup(Stream savedStream)

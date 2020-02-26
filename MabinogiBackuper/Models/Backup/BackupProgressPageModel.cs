@@ -17,7 +17,7 @@ namespace MabinogiBackuper.Models.Backup
             Backup
         }
 
-        private readonly Backupper _backupper = new Backupper();
+        private readonly Backupper _backupper;
         private readonly BackupShare _share;
 
         private int _progressValue;
@@ -39,17 +39,18 @@ namespace MabinogiBackuper.Models.Backup
         public BackupProgressPageModel(BackupShare share)
         {
             _share = share;
+            _backupper = share.Backupper;
 
             _backupper.BackupProgress.Subscribe(
                 onNext: args => ProgressChanged(ProgressMode.Backup, args, 1, 1));
         }
 
-        public void Analyze()
+        public async Task Analyze()
         {
             if (string.IsNullOrEmpty(_share.SavedPath))
                 return;
 
-            Task.Factory.StartNew(() =>
+            await Task.Factory.StartNew(() =>
             {
 
                 using (var fs = new FileStream(_share.SavedPath, FileMode.Create, FileAccess.Write, FileShare.None))

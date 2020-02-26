@@ -137,10 +137,5 @@ namespace MabinogiBackuper.ViewModels.Backup
         }
 
         #endregion
-
-        public override void RefreshValues()
-        {
-            BindableValue.NextBtContent = "開始する";
-        }
     }
 }
