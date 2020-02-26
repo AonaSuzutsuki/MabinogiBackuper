@@ -24,9 +24,9 @@ namespace MabinogiBackuper.ViewModels.Backup
         #region Fieds
 
         private readonly NavigationWindowService<BackupShare> _service;
-        private readonly BoolCollector _collector = new BoolCollector();
 
         private bool _allSelectChecked;
+        private bool _registryChecked;
         private bool _drawChatChecked;
         private bool _screenshotChecked;
         private bool _petAiChecked;
@@ -37,6 +37,16 @@ namespace MabinogiBackuper.ViewModels.Backup
         #endregion
 
         #region Properties
+
+        public bool RegistryChecked
+        {
+            get => _registryChecked;
+            set
+            {
+                SetProperty(ref _registryChecked, value);
+                _service.Share.ContainsRegistry = value;
+            }
+        }
 
         public bool AllSelectChecked
         {
@@ -115,25 +125,52 @@ namespace MabinogiBackuper.ViewModels.Backup
 
         #region Methods
 
+        public override void RefreshValues()
+        {
+            base.RefreshValues();
+
+            var singleCollector = BoolCollectorValueChange(typeof(BoolSingleCollector), this);
+            BindableValue.CanGoNext = singleCollector.Value;
+        }
+
         public void AllSelect_Checked()
         {
+            RegistryChecked = AllSelectChecked;
             DrawChatChecked = AllSelectChecked;
             ScreenshotChecked = AllSelectChecked;
             PetAiChecked = AllSelectChecked;
             KeyAlermChecked = AllSelectChecked;
             InteractionChecked = AllSelectChecked;
             MovieChecked = AllSelectChecked;
+
+            BindableValue.CanGoNext = AllSelectChecked;
         }
 
         public void AllChecked()
         {
-            _collector.ChangeBool(nameof(DrawChatChecked), DrawChatChecked);
-            _collector.ChangeBool(nameof(ScreenshotChecked), ScreenshotChecked);
-            _collector.ChangeBool(nameof(PetAiChecked), PetAiChecked);
-            _collector.ChangeBool(nameof(KeyAlermChecked), KeyAlermChecked);
-            _collector.ChangeBool(nameof(InteractionChecked), InteractionChecked);
-            _collector.ChangeBool(nameof(MovieChecked), MovieChecked);
-            AllSelectChecked = _collector.Value;
+            var collector = BoolCollectorValueChange(typeof(BoolCollector), this);
+            AllSelectChecked = collector.Value;
+
+            var singleCollector = BoolCollectorValueChange(typeof(BoolSingleCollector), this);
+            // どれか一つチェックあれば次のボタン有効化
+            BindableValue.CanGoNext = singleCollector.Value;
+        }
+
+        private static BoolCollector BoolCollectorValueChange(Type type, BackupSelectionPageViewModel viewModel)
+        {
+            var obj = Activator.CreateInstance(type);
+            if (!(obj is BoolCollector collector)) return null;
+
+            collector.ChangeBool(nameof(RegistryChecked), viewModel.RegistryChecked);
+            collector.ChangeBool(nameof(DrawChatChecked), viewModel.DrawChatChecked);
+            collector.ChangeBool(nameof(ScreenshotChecked), viewModel.ScreenshotChecked);
+            collector.ChangeBool(nameof(PetAiChecked), viewModel.PetAiChecked);
+            collector.ChangeBool(nameof(KeyAlermChecked), viewModel.KeyAlermChecked);
+            collector.ChangeBool(nameof(InteractionChecked), viewModel.InteractionChecked);
+            collector.ChangeBool(nameof(MovieChecked), viewModel.MovieChecked);
+
+            return collector;
+
         }
 
         #endregion

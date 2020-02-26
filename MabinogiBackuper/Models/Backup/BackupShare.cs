@@ -10,6 +10,7 @@ namespace MabinogiBackuper.Models.Backup
 {
     public class BackupShare
     {
+        private bool _containsRegistry;
         private bool _containsDrawChat;
         private bool _containsScreenshot;
         private bool _containsPetAi;
@@ -20,6 +21,16 @@ namespace MabinogiBackuper.Models.Backup
         public string SavedPath { get; set; }
 
         public bool IsChanged { get; set; }
+
+        public bool ContainsRegistry
+        {
+            get => _containsRegistry;
+            set
+            {
+                _containsRegistry = value;
+                IsChanged = true;
+            }
+        }
 
         public bool ContainsDrawChat
         {
@@ -89,6 +100,7 @@ namespace MabinogiBackuper.Models.Backup
         public int CheckedCount()
         {
             var counter = new BoolCounter();
+            counter.Change(nameof(ContainsRegistry), ContainsRegistry);
             counter.Change(nameof(ContainsDrawChat), ContainsDrawChat);
             counter.Change(nameof(ContainsScreenshot), ContainsScreenshot);
             counter.Change(nameof(ContainsPetAi), ContainsPetAi);

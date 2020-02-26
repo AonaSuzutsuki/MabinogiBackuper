@@ -72,7 +72,8 @@ namespace MabinogiBackuper.Models.Backup
         {
             await Task.Factory.StartNew(() =>
             {
-                _backupper.CreateRegistryBackup();
+                if (_share.ContainsRegistry)
+                    _backupper.CreateRegistryBackup();
 
                 var targetDirs = _share.CheckedPathList();
                 _backupper.BackupFilePathItems(targetDirs);

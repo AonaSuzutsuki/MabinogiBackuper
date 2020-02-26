@@ -28,6 +28,13 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </CheckBox>
+            <CheckBox Content="画面やサウンドなどのゲーム内設定" IsChecked="{Binding RegistryChecked}" Height="16" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding AllCheckedCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </CheckBox>
             <CheckBox Content="お絵かきチャット" IsChecked="{Binding DrawChatChecked}" Height="16" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
