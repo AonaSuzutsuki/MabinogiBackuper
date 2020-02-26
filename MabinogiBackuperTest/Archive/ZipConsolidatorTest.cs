@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,37 @@ namespace MabinogiBackuperTest.Archive
             var files = di.GetFiles("*", SearchOption.AllDirectories).Select(x => x.FullName);
 
             using var ms = ZipConsolidator.ConsolidateStatic(files, di.FullName);
+            using var fs = new FileStream($"{TestContext.CurrentContext.TestDirectory}/TestData/test.zip", FileMode.Open, FileAccess.Read, FileShare.Read);
+
+            var actData = new byte[ms.Length];
+            var expData = new byte[fs.Length];
+
+            ms.Read(actData, 0, actData.Length);
+            fs.Read(expData, 0, expData.Length);
+
+            CollectionAssert.AreEqual(expData, actData);
+
+            //using var fs = new FileStream($"{TestContext.CurrentContext.TestDirectory}/test.zip", FileMode.Create, FileAccess.Write, FileShare.None);
+            //ms.CopyTo(fs);
+        }
+
+        [Test]
+        public void ConsolidateTest2()
+        {
+            var di = new DirectoryInfo($"{TestContext.CurrentContext.TestDirectory}/TestData/compress".UnifiedSystemPathSeparator());
+            var files = di.GetFiles("*", SearchOption.AllDirectories).Select(x => x.FullName);
+
+            using var ms = new MemoryStream();
+            using (var zip = new ZipConsolidator(ms))
+            {
+                foreach (var file in files)
+                {
+                    zip.Add(ZipConsolidator.CreateEntryName(file, di.FullName), file);
+                }
+                zip.Consolidate(null);
+            }
+            ms.Seek(0, SeekOrigin.Begin);
+            //using var ms = ZipConsolidator.ConsolidateStatic(files, di.FullName);
             using var fs = new FileStream($"{TestContext.CurrentContext.TestDirectory}/TestData/test.zip", FileMode.Open, FileAccess.Read, FileShare.Read);
 
             var actData = new byte[ms.Length];

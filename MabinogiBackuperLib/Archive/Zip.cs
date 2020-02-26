@@ -20,6 +20,20 @@ namespace MabinogiBackuperLib.Archive
         public string Name { get; set; }
     }
 
+    public class ZipConsolidatorItemInfo
+    {
+        public enum ItemType
+        {
+            File,
+            Binary
+        }
+
+        public ItemType Type { get; set; }
+        public string EntryName { get; set; }
+        public string FilePath { get; set; }
+        public byte[] Content { get; set; }
+    }
+
     public class ZipConsolidator : IDisposable
     {
 
@@ -31,13 +45,54 @@ namespace MabinogiBackuperLib.Archive
 
         private ZipArchive _archive;
 
+        private Dictionary<string, ZipConsolidatorItemInfo> _items { get; } = new Dictionary<string, ZipConsolidatorItemInfo>();
+
         #endregion
+
 
         public ZipConsolidator(Stream destinationStream, CompressionLevel level = CompressionLevel.Fastest)
         {
             _destinationStream = destinationStream;
             _compressionLevel = level;
             _archive = new ZipArchive(destinationStream, ZipArchiveMode.Create, true);
+        }
+
+        public void Add(string entryName, string filePath)
+        {
+            _items.Add(entryName, new ZipConsolidatorItemInfo
+            {
+                Type = ZipConsolidatorItemInfo.ItemType.File,
+                EntryName = entryName,
+                FilePath = filePath
+            });
+        }
+
+        public void Add(string entryName, byte[] data)
+        {
+            _items.Add(entryName, new ZipConsolidatorItemInfo
+            {
+                Type = ZipConsolidatorItemInfo.ItemType.Binary,
+                EntryName = entryName,
+                Content = data
+            });
+        }
+
+        public void Consolidate(Action<IProgressEventArgs> callback)
+        {
+            foreach (var tuple in _items.Values.Select((v, i) => new { Index = i, Value = v }))
+            {
+                if (tuple.Value.Type == ZipConsolidatorItemInfo.ItemType.File)
+                    Consolidate(tuple.Value.FilePath, tuple.Value.EntryName);
+                else
+                    Consolidate(tuple.Value.Content, tuple.Value.EntryName);
+
+                callback?.Invoke(new ZipConsidateEventArgs
+                {
+                    Total = _items.Count,
+                    Current = tuple.Index + 1,
+                    Name = tuple.Value.FilePath
+                });
+            }
         }
 
         public void Consolidate(IEnumerable<string> files, string basePath, Action<IProgressEventArgs> callback)
@@ -54,6 +109,15 @@ namespace MabinogiBackuperLib.Archive
                     Current = tuple.Index + 1,
                     Name = tuple.Value.File
                 });
+            }
+        }
+
+        public void Consolidate(byte[] data, string entryName)
+        {
+            var entry = _archive.CreateEntry(entryName, _compressionLevel);
+            using (var stream = entry.Open())
+            {
+                stream.Write(data, 0, data.Length);
             }
         }
 

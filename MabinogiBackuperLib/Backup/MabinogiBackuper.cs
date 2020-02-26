@@ -66,10 +66,17 @@ namespace MabinogiBackuperLib.Backup
 
         public void Backup(Stream savedStream)
         {
-            using (var zip = new ZipConsolidator(savedStream))
+            using var zip = new ZipConsolidator(savedStream);
+            foreach (var file in _files)
             {
-                zip.Consolidate(_files, _personalDirectoryPath, _backupProgress.OnNext);
+                zip.Add(ZipConsolidator.CreateEntryName(file, _personalDirectoryPath), file);
             }
+            
+            if (!string.IsNullOrEmpty(_registryJson))
+                zip.Add("Registry.json", Encoding.UTF8.GetBytes(_registryJson));
+
+            zip.Consolidate(_backupProgress.OnNext);
+            //zip.Consolidate(_files, _personalDirectoryPath, _backupProgress.OnNext);
         }
     }
 }
