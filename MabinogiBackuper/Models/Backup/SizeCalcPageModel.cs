@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using MabinogiBackuperLib.Backup;
+using MabinogiBackuperLib.FileFunctions;
 using Prism.Mvvm;
 
 namespace MabinogiBackuper.Models.Backup
@@ -93,25 +94,9 @@ namespace MabinogiBackuper.Models.Backup
         private void Completed()
         {
             var bytes = _share.AnalyzedSize;
-            var calcBytes = (double)bytes;
-            var byteString = "Bytes";
-            if (bytes > 1073741824)
-            {
-                calcBytes = ((double)bytes / 1024 / 1024 / 1024);
-                byteString = "GB";
-            }
-            else if (bytes > 1048576)
-            {
-                calcBytes = ((double)bytes / 1024 / 1024);
-                byteString = "MB";
-            }
-            else if (bytes > 1024)
-            {
-                calcBytes = ((double)bytes / 1024);
-                byteString = "KB";
-            }
+            var bytesString = FileSize.ConvertToString(bytes);
 
-            Message = $"バックアップには少なくとも {calcBytes:0.000} {byteString} の空き容量が必要です。";
+            Message = $"バックアップには少なくとも {bytesString.converted} の空き容量が必要です。";
 
             _share.IsAnalyzed = true;
             ProgressVisibility = Visibility.Hidden;
