@@ -17,8 +17,11 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <StackPanel VerticalAlignment="Center">
-        <Label Content="{Binding ProgressLabel.Value}" />
-        <ProgressBar Value="{Binding ProgressValue.Value}" Height="30" Style="{StaticResource ProgressBarStyle}" />
-    </StackPanel>
+    <Grid>
+        <StackPanel VerticalAlignment="Center">
+            <Label Content="{Binding ProgressLabel.Value}" />
+            <ProgressBar Value="{Binding ProgressValue.Value}" Height="30" Style="{StaticResource ProgressBarStyle}" />
+        </StackPanel>
+    </Grid>
+    
 </Page>

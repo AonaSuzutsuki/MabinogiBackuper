@@ -18,6 +18,9 @@ namespace MabinogiBackuperLib.Archive
         public int Current { get; set; }
         public int Percentage => (int)Math.Round((double)Current / Total * 100);
         public string Name { get; set; }
+
+        public long TotalSize { get; set; }
+        public long CurrentSize { get; set; }
     }
 
     public class ZipConsolidatorItemInfo
@@ -77,21 +80,23 @@ namespace MabinogiBackuperLib.Archive
             });
         }
 
-        public void Consolidate(Action<IProgressEventArgs> callback)
+        public void Consolidate(Action<ZipConsidateEventArgs> callback)
         {
             foreach (var tuple in _items.Values.Select((v, i) => new { Index = i, Value = v }))
             {
-                if (tuple.Value.Type == ZipConsolidatorItemInfo.ItemType.File)
-                    Consolidate(tuple.Value.FilePath, tuple.Value.EntryName);
-                else
-                    Consolidate(tuple.Value.Content, tuple.Value.EntryName);
-
-                callback?.Invoke(new ZipConsidateEventArgs
+                var eventArgs = new ZipConsidateEventArgs
                 {
                     Total = _items.Count,
                     Current = tuple.Index + 1,
-                    Name = tuple.Value.FilePath
-                });
+                    Name = tuple.Value.EntryName
+                };
+
+                if (tuple.Value.Type == ZipConsolidatorItemInfo.ItemType.File)
+                    Consolidate(tuple.Value.FilePath, tuple.Value.EntryName, callback, eventArgs);
+                else
+                    Consolidate(tuple.Value.Content, tuple.Value.EntryName);
+
+                callback?.Invoke(eventArgs);
             }
         }
 
@@ -121,7 +126,7 @@ namespace MabinogiBackuperLib.Archive
             }
         }
 
-        public void Consolidate(string file, string entryName)
+        public void Consolidate(string file, string entryName, Action<ZipConsidateEventArgs> callback = null, ZipConsidateEventArgs eventArgs = null)
         {
             var fi = new FileInfo(file);
             if (fi.Length >= 128 * 1024 * 1024)
@@ -133,14 +138,21 @@ namespace MabinogiBackuperLib.Archive
                 {
                     using (var stream = entry.Open())
                     {
+                        eventArgs.TotalSize = fi.Length;
                         var copying = true;
                         while (copying)
                         {
                             var bytesRead = fs.Read(buffer, 0, buffer.Length);
                             if (bytesRead > 0)
+                            {
                                 stream.Write(buffer, 0, bytesRead);
+                                eventArgs.CurrentSize += bytesRead;
+                                callback(eventArgs);
+                            }
                             else
+                            {
                                 copying = false;
+                            }
                         }
                     }
                 }

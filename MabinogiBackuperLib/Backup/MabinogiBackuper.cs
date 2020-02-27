@@ -24,11 +24,11 @@ namespace MabinogiBackuperLib.Backup
 
         public IObservable<IProgressEventArgs> CreateRegistryBackupProgress => _createRegistryBackupProgress;
         public IObservable<IProgressEventArgs> BackupFileAnalyzeProgress => _backupFileAnalyzeProgress;
-        public IObservable<IProgressEventArgs> BackupProgress => _backupProgress;
+        public IObservable<ZipConsidateEventArgs> BackupProgress => _backupProgress;
 
         private readonly Subject<IProgressEventArgs> _createRegistryBackupProgress = new Subject<IProgressEventArgs>();
         private readonly Subject<IProgressEventArgs> _backupFileAnalyzeProgress = new Subject<IProgressEventArgs>();
-        private readonly Subject<IProgressEventArgs> _backupProgress = new Subject<IProgressEventArgs>();
+        private readonly Subject<ZipConsidateEventArgs> _backupProgress = new Subject<ZipConsidateEventArgs>();
         private readonly string _personalDirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
         private List<string> _files = new List<string>();
@@ -76,6 +76,7 @@ namespace MabinogiBackuperLib.Backup
                 zip.Add("Registry.json", Encoding.UTF8.GetBytes(_registryJson));
 
             zip.Consolidate(_backupProgress.OnNext);
+            GC.Collect();
             //zip.Consolidate(_files, _personalDirectoryPath, _backupProgress.OnNext);
         }
     }

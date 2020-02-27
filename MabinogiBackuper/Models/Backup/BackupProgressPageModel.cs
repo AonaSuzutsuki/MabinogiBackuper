@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MabinogiBackuperLib.Archive;
 using MabinogiBackuperLib.Backup;
+using MabinogiBackuperLib.FileFunctions;
 using Prism.Mvvm;
 
 namespace MabinogiBackuper.Models.Backup
@@ -42,7 +44,8 @@ namespace MabinogiBackuper.Models.Backup
             _backupper = share.Backupper;
 
             _backupper.BackupProgress.Subscribe(
-                onNext: args => ProgressChanged(ProgressMode.Backup, args, 1, 1));
+                onNext: args => ProgressChanged(ProgressMode.Backup, args, 1, 1),
+                onCompleted: () => { });
         }
 
         public async Task Analyze()
@@ -52,7 +55,6 @@ namespace MabinogiBackuper.Models.Backup
 
             await Task.Factory.StartNew(() =>
             {
-
                 using (var fs = new FileStream(_share.SavedPath, FileMode.Create, FileAccess.Write, FileShare.None))
                 {
                     _backupper.Backup(fs);
@@ -60,9 +62,16 @@ namespace MabinogiBackuper.Models.Backup
             });
         }
 
-        public void ProgressChanged(ProgressMode mode, IProgressEventArgs eventArgs, int current, int maxPhase)
+        public void ProgressChanged(ProgressMode mode, ZipConsidateEventArgs eventArgs, int current, int maxPhase)
         {
-            ProgressLabel = $"{mode} {current}/{maxPhase}: {eventArgs.Percentage}% {eventArgs.Name}";
+            var (sizeType, converted) = FileSize.ConvertToString((ulong)eventArgs.TotalSize);
+            var currentSize = FileSize.ConvertToString((ulong)eventArgs.CurrentSize, sizeType);
+
+            if (eventArgs.TotalSize > 0)
+                ProgressLabel = $"{mode} {current}/{maxPhase}: {eventArgs.Percentage}% {currentSize}/{converted} {eventArgs.Name}";
+            else
+                ProgressLabel = $"{mode} {current}/{maxPhase}: {eventArgs.Percentage}% {eventArgs.Name}";
+
             ProgressValue = eventArgs.Percentage;
         }
     }
