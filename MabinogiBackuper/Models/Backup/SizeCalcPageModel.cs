@@ -96,7 +96,7 @@ namespace MabinogiBackuper.Models.Backup
             var bytes = _share.AnalyzedSize;
             var bytesString = FileSize.ConvertToString(bytes);
 
-            Message = $"バックアップには少なくとも {bytesString.converted} の空き容量が必要です。";
+            Message = $"バックアップには {bytesString.converted} の空き容量が必要です。";
 
             _share.IsAnalyzed = true;
             ProgressVisibility = Visibility.Hidden;

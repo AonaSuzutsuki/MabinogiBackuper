@@ -50,13 +50,15 @@ namespace MabinogiBackuper.ViewModels.Backup
         {
             await _model.Analyze();
 
-            BindableValue.CloseBtVisibility = Visibility.Visible;
+            BindableValue.NextBtVisibility = Visibility.Visible;
         }
 
         #endregion
 
         public override void RefreshValues()
         {
+            base.RefreshValues();
+
             BindableValue.BackBtVisibility = Visibility.Collapsed;
             BindableValue.NextBtVisibility = Visibility.Collapsed;
             BindableValue.CancelBtVisibility = Visibility.Collapsed;

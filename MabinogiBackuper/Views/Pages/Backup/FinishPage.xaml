@@ -8,7 +8,46 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Finish">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Icon.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CommonStyleLib;component/Styles/Main.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid>
-        
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Content="バックアップ完了" FontWeight="Bold" FontSize="24" />
+        <TextBlock Grid.Row="2" Foreground="White" TextWrapping="Wrap" FontSize="14">
+            マビノギのバックアップが完了しました。<LineBreak />
+            なお、マビノギゲーム本体はバックアップしていないので個別にDドライブなど別のパーティションあるいはドライブにコピーを行ってください。<LineBreak />
+            以下の「マビノギ本体の場所」をクリックするとマビノギインストール先をエクスプローラで開きます。
+        </TextBlock>
+
+        <StackPanel Grid.Row="4">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="バックアップサイズ: " />
+                <Label Content="{Binding BackupSize.Value}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="マビノギ本体の場所: " />
+                <TextBlock VerticalAlignment="Center">
+                    <Hyperlink Command="{Binding LinkCommand}">
+                        <Run FontSize="14" Foreground="White" Text="{Binding MabinogiLocation.Value}" />
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+        </StackPanel>
+
     </Grid>
 </Page>
