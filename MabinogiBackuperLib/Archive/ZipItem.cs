@@ -31,7 +31,7 @@ namespace MabinogiBackuperLib.Archive
 
         public string Name { get; set; }
 
-        public ZipArchiveEntry ZipEntry { get; set; }
+        internal ZipArchiveEntry ZipEntry { get; set; }
 
         public void AppendItem(string dirPath, string name, ZipArchiveEntry entry)
         {

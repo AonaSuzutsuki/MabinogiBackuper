@@ -17,6 +17,7 @@ namespace MabinogiBackuperTest.Archive
         {
             using var fs = new FileStream($"{TestContext.CurrentContext.TestDirectory}/TestData/test.zip", FileMode.Open, FileAccess.Read, FileShare.Read);
             using var zip = new ZipExtractor(fs);
+            zip.Initialize();
 
             zip.Extract("sub/", $"{TestContext.CurrentContext.TestDirectory}/out/sub");
 
@@ -37,7 +38,7 @@ namespace MabinogiBackuperTest.Archive
         {
             using var fs = new FileStream($"{TestContext.CurrentContext.TestDirectory}/TestData/test.zip", FileMode.Open, FileAccess.Read, FileShare.Read);
             using var zip = new ZipExtractor(fs);
-
+            zip.Initialize();
 
             var di = new DirectoryInfo($"{TestContext.CurrentContext.TestDirectory}/out/single");
             if (di.Exists)
@@ -54,6 +55,7 @@ namespace MabinogiBackuperTest.Archive
         {
             using var fs = new FileStream($"{TestContext.CurrentContext.TestDirectory}/TestData/test.zip", FileMode.Open, FileAccess.Read, FileShare.Read);
             using var zip = new ZipExtractor(fs);
+            zip.Initialize();
 
             var di = new DirectoryInfo($"{TestContext.CurrentContext.TestDirectory}/out/root");
             if (di.Exists)

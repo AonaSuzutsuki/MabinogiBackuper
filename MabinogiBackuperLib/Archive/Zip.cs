@@ -246,19 +246,19 @@ namespace MabinogiBackuperLib.Archive
         private readonly ZipArchive _archive;
         private readonly ZipItem _root = new ZipItem();
 
+        public ZipItem Root => _root;
+
         public ZipExtractor(Stream stream)
         {
             _archive = new ZipArchive(stream, ZipArchiveMode.Read, true);
-            Initialize();
         }
 
         public ZipExtractor(string zipPath)
         {
             _archive = ZipFile.OpenRead(zipPath);
-            Initialize();
         }
 
-        private void Initialize()
+        public void Initialize()
         {
             foreach (var entry in _archive.Entries)
             {
