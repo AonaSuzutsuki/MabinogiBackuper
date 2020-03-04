@@ -93,7 +93,7 @@ namespace MabinogiBackuper.Models.Backup
         }
 
         public bool IsAnalyzed { get; set; }
-        public ulong AnalyzedSize { get; set; }
+        public long AnalyzedSize { get; set; }
         public Backupper Backupper { get; } = new Backupper();
 
 

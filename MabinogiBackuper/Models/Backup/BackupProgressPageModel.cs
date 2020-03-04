@@ -64,8 +64,8 @@ namespace MabinogiBackuper.Models.Backup
 
         public void ProgressChanged(ProgressMode mode, ZipConsidateEventArgs eventArgs, int current, int maxPhase)
         {
-            var (sizeType, converted) = FileSize.ConvertToString((ulong)eventArgs.TotalSize);
-            var currentSize = FileSize.ConvertToString((ulong)eventArgs.CurrentSize, sizeType);
+            var (sizeType, converted) = FileSize.ConvertToString(eventArgs.TotalSize);
+            var currentSize = FileSize.ConvertToString(eventArgs.CurrentSize, sizeType);
 
             if (eventArgs.TotalSize > 0)
                 ProgressLabel = $"{mode} {current}/{maxPhase}: {eventArgs.Percentage}% {currentSize}/{converted} {eventArgs.Name}";

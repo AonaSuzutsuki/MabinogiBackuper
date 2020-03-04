@@ -42,7 +42,7 @@ namespace MabinogiBackuper.Models.Backup
             RootPath = editor.GetValue(@"SOFTWARE\Nexon\Mabinogi", "RootPath");
 
             var fi = new FileInfo(_share.SavedPath);
-            BackupSize = FileSize.ConvertToString((ulong)fi.Length).converted;
+            BackupSize = FileSize.ConvertToString(fi.Length).converted;
         }
     }
 }

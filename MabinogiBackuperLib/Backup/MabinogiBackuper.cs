@@ -59,9 +59,9 @@ namespace MabinogiBackuperLib.Backup
             _files = list;
         }
 
-        public ulong CalculatedSize()
+        public long CalculatedSize()
         {
-            return FileFunctions.FileSize.TotalFileSize(_files) + (ulong)_registryJson.Length;
+            return FileFunctions.FileSize.TotalFileSize(_files) + _registryJson.Length;
         }
 
         public void Backup(Stream savedStream)

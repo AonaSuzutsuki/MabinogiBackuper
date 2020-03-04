@@ -16,19 +16,19 @@ namespace MabinogiBackuperLib.FileFunctions
     }
     public static class FileSize
     {
-        public static ulong TotalFileSize(IEnumerable<string> files)
+        public static long TotalFileSize(IEnumerable<string> files)
         {
-            ulong len = 0L;
+            long len = 0L;
             foreach (var file in files)
             {
                 var info = new FileInfo(file);
-                len += (ulong)info.Length;
+                len += info.Length;
             }
 
             return len;
         }
 
-        public static (SizeType sizeType, string converted) ConvertToString(ulong size)
+        public static (SizeType sizeType, string converted) ConvertToString(long size)
         {
             var bytes = size;
             var calcBytes = (double)bytes;
@@ -55,7 +55,7 @@ namespace MabinogiBackuperLib.FileFunctions
             return (type, $"{calcBytes:0.000} {byteString}");
         }
 
-        public static string ConvertToString(ulong size, SizeType type)
+        public static string ConvertToString(long size, SizeType type)
         {
             var bytes = (double)size;
             var byteString = "Bytes";
