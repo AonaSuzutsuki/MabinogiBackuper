@@ -142,6 +142,19 @@ namespace MabinogiBackuperLib.Archive
             return null;
         }
 
+        public long ExtractedSize()
+        {
+            return ExtractedSize(this);
+        }
+
+        public long ExtractedSize(ZipItem zipItem)
+        {
+            if (zipItem.ZipItemType == ItemType.File)
+                return zipItem.ZipEntry.Length;
+
+            return zipItem.Files.Sum(ExtractedSize) + zipItem.Directories.Sum(ExtractedSize);
+        }
+
         public int FileCount(ZipItem zipItem)
         {
             var cnt = zipItem.Files.Count;

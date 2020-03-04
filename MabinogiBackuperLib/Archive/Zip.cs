@@ -175,7 +175,11 @@ namespace MabinogiBackuperLib.Archive
             var ms = new MemoryStream();
             using (var zip = new ZipConsolidator(ms))
             {
-                zip.Consolidate(files, basePath, null);
+                foreach (var file in files)
+                {
+                    zip.Add(CreateEntryName(file, basePath), file);
+                }
+                zip.Consolidate(null);
             }
 
             ms.Seek(0, SeekOrigin.Begin);
@@ -262,9 +266,12 @@ namespace MabinogiBackuperLib.Archive
         {
             foreach (var entry in _archive.Entries)
             {
-                var elem = Path.GetFileName(entry.FullName);
-                var dir = Path.GetDirectoryName(entry.FullName).Replace("\\", "/");
-                _root.AppendItem(dir, elem, entry);
+                if (!entry.FullName.EndsWith("/"))
+                {
+                    var elem = Path.GetFileName(entry.FullName);
+                    var dir = Path.GetDirectoryName(entry.FullName).Replace("\\", "/");
+                    _root.AppendItem(dir, elem, entry);
+                }
             }
         }
 
