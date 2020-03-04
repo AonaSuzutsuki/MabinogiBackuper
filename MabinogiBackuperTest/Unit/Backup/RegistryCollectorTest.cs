@@ -9,7 +9,7 @@ using Microsoft.Win32;
 using Moq;
 using NUnit.Framework;
 
-namespace MabinogiBackuperTest.Backup
+namespace MabinogiBackuperTest.Unit.Backup
 {
     [TestFixture]
     public class RegistryCollectorTest

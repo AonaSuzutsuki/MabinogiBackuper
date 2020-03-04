@@ -71,10 +71,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Archive\ZipConsolidatorTest.cs" />
-    <Compile Include="Archive\ZipExtractorTest.cs" />
-    <Compile Include="Archive\ZipItemTest.cs" />
-    <Compile Include="Backup\RegistryCollectorTest.cs" />
+    <Compile Include="Join\Archive\ZipItemTest.cs" />
+    <Compile Include="Unit\Archive\ZipConsolidatorTest.cs" />
+    <Compile Include="Unit\Archive\ZipExtractorTest.cs" />
+    <Compile Include="Unit\Archive\ZipItemTest.cs" />
+    <Compile Include="Unit\Backup\RegistryCollectorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using MabinogiBackuperLib.Archive;
 using NUnit.Framework;
 
-namespace MabinogiBackuperTest.Archive
+namespace MabinogiBackuperTest.Unit.Archive
 {
     [TestFixture]
     public class ZipExtractorTest

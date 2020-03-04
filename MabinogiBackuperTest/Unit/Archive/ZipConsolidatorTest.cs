@@ -10,7 +10,7 @@ using MabinogiBackuperLib.Archive;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 
-namespace MabinogiBackuperTest.Archive
+namespace MabinogiBackuperTest.Unit.Archive
 {
     [TestFixture]
     public class ZipConsolidatorTest
@@ -19,7 +19,17 @@ namespace MabinogiBackuperTest.Archive
         public void ConsolidateTest()
         {
             var di = new DirectoryInfo($"{TestContext.CurrentContext.TestDirectory}/TestData/compress".UnifiedSystemPathSeparator());
-            var files = di.GetFiles("*", SearchOption.AllDirectories).Select(x => x.FullName);
+            var files = CommonCoreLib.CommonFile.DirectorySearcher.GetAllFiles(di.FullName);
+
+            //using var _fs = new FileStream($"{TestContext.CurrentContext.TestDirectory}/test.zip", FileMode.Create, FileAccess.Write);
+            //var zip = new ZipConsolidator(_fs);
+            //foreach (var file in files)
+            //{
+            //    zip.Add(ZipConsolidator.CreateEntryName(file, di.FullName), file);
+            //}
+            //zip.Consolidate(null);
+            //zip.Dispose();
+            //return;
 
             using var ms = ZipConsolidator.ConsolidateStatic(files, di.FullName);
             using var fs = new FileStream($"{TestContext.CurrentContext.TestDirectory}/TestData/test.zip", FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -40,7 +50,7 @@ namespace MabinogiBackuperTest.Archive
         public void ConsolidateTest2()
         {
             var di = new DirectoryInfo($"{TestContext.CurrentContext.TestDirectory}/TestData/compress".UnifiedSystemPathSeparator());
-            var files = di.GetFiles("*", SearchOption.AllDirectories).Select(x => x.FullName);
+            var files = CommonCoreLib.CommonFile.DirectorySearcher.GetAllFiles(di.FullName);
 
             using var ms = new MemoryStream();
             using (var zip = new ZipConsolidator(ms))
