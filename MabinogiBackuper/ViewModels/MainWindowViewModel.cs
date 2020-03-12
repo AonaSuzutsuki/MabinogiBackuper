@@ -9,6 +9,7 @@ using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using MabinogiBackuper.Models;
 using MabinogiBackuper.Models.Backup;
+using MabinogiBackuper.ViewModels.Restore;
 using MabinogiBackuper.Views;
 using MabinogiBackuper.Views.Pages;
 using MabinogiBackuper.Views.Pages.Backup;
@@ -23,6 +24,7 @@ namespace MabinogiBackuper.ViewModels
             this.model = model;
 
             BackupBtCommand = new DelegateCommand(OpenBackup);
+            RestoreCommand = new DelegateCommand(OpenRestore);
         }
 
         #region Fields
@@ -40,6 +42,7 @@ namespace MabinogiBackuper.ViewModels
         #region Event Properties
 
         public ICommand BackupBtCommand { get; set; }
+        public ICommand RestoreCommand { get; set; }
 
         #endregion
 
@@ -67,6 +70,30 @@ namespace MabinogiBackuper.ViewModels
                 service.NavigationValue.WindowTitle = "Mabinogi Backupper - バックアップ";;
                 service.Initialize();
                 var vm = new NavigationBaseViewModel<BackupShare>(service, navigationModel);
+                window.Loaded += (sender, args) => vm.Loaded.Execute(null);
+                return vm;
+            });
+        }
+
+        public void OpenRestore()
+        {
+            var navigationModel = new NavigationBaseModel();
+            WindowManageService.ShowDialog<NavigationBase>(window =>
+            {
+                var service = new NavigationWindowService<RestoreShare>
+                {
+                    Owner = window,
+                    Navigation = window.MainFrame.NavigationService,
+                    Pages = new List<Type>
+                    {
+                        typeof(Views.Pages.Restore.FirstPage),
+                        typeof(Views.Pages.Restore.DestRestorePage),
+                        typeof(Views.Pages.Restore.RestoreSizeCalcPage),
+                    }
+                };
+                service.NavigationValue.WindowTitle = "Mabinogi Backupper - リストア"; ;
+                service.Initialize();
+                var vm = new NavigationBaseViewModel<RestoreShare>(service, navigationModel);
                 window.Loaded += (sender, args) => vm.Loaded.Execute(null);
                 return vm;
             });

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Prism.Commands;
 using Prism.Mvvm;
 
 namespace MabinogiBackuper.ViewModels
@@ -22,6 +24,7 @@ namespace MabinogiBackuper.ViewModels
         }
 
         protected NavigationBindableValue BindableValue { get; }
+
 
         public virtual void RefreshValues()
         {

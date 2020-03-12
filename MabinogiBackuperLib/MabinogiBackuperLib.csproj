@@ -79,7 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Archive\ZipItem.cs" />
+    <Compile Include="Backup\AbstractMabinogi.cs" />
     <Compile Include="Backup\MabinogiBackuper.cs" />
+    <Compile Include="Backup\MabinogiRestorer.cs" />
     <Compile Include="Backup\RegistryCollector.cs" />
     <Compile Include="Boolean\BoolCounter.cs" />
     <Compile Include="FileFunctions\FileSize.cs" />

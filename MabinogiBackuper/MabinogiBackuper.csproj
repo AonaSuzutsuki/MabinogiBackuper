@@ -115,6 +115,7 @@
     <Compile Include="Models\Backup\SizeCalcPageModel.cs" />
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Models\NavigationBaseModel.cs" />
+    <Compile Include="Models\Restore\RestoreSizeCalcPageModel.cs" />
     <Compile Include="ViewModels\Backup\BackupProgressPageViewModel.cs" />
     <Compile Include="ViewModels\Backup\BackupSelectionPageViewModel.cs" />
     <Compile Include="ViewModels\Backup\DestSavePageViewModel.cs" />
@@ -124,6 +125,9 @@
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\NavigationBaseViewModel.cs" />
     <Compile Include="ViewModels\NavigationPageViewModelBase.cs" />
+    <Compile Include="ViewModels\Restore\DestSavePageViewModel.cs" />
+    <Compile Include="ViewModels\Restore\RestoreSizeCalcPageViewModel.cs" />
+    <Compile Include="ViewModels\Restore\RestoreShare.cs" />
     <Compile Include="Views\NavigationBase.xaml.cs">
       <DependentUpon>NavigationBase.xaml</DependentUpon>
     </Compile>
@@ -144,6 +148,15 @@
     </Compile>
     <Compile Include="Views\Pages\Backup\SizeCalcPage.xaml.cs">
       <DependentUpon>SizeCalcPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Restore\DestRestorePage.xaml.cs">
+      <DependentUpon>DestRestorePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Restore\FirstPage.xaml.cs">
+      <DependentUpon>FirstPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Restore\RestoreSizeCalcPage.xaml.cs">
+      <DependentUpon>RestoreSizeCalcPage.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\BackupWindow.xaml">
       <SubType>Designer</SubType>

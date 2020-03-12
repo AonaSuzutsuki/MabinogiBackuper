@@ -17,7 +17,7 @@ namespace MabinogiBackuperLib.Backup
         public string Name { get; set; }
     }
 
-    public class Backupper
+    public class Backupper : AbstractMabinogi
     {
 
         public RegistryCollector RegistryCollector { get; set; } = new RegistryCollector();

@@ -111,7 +111,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Height="Auto" Style="{StaticResource FlatButton}">
+                    <Button Grid.Column="0" Height="Auto" Style="{StaticResource FlatButton}" Command="{Binding RestoreCommand}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{StaticResource Icon}" Width="25" />
                             <Label Content="設定のリストア" />
