@@ -23,6 +23,14 @@ namespace MabinogiBackuperLib.Archive
         public long CurrentSize { get; set; }
     }
 
+    public class ZipExtractorEventArgs : IProgressEventArgs
+    {
+        public int Total { get; set; }
+        public int Current { get; set; }
+        public int Percentage => (int)Math.Round((double)Current / Total * 100);
+        public string Name { get; set; }
+    }
+
     public class ZipConsolidatorItemInfo
     {
         public enum ItemType
@@ -262,15 +270,23 @@ namespace MabinogiBackuperLib.Archive
             _archive = ZipFile.OpenRead(zipPath);
         }
 
-        public void Initialize()
+        public void Initialize(Action<IProgressEventArgs> callBack = null)
         {
-            foreach (var entry in _archive.Entries)
+            foreach (var item in _archive.Entries.Select((v, i) => new { Value = v, Index = i }))
             {
+                var entry = item.Value;
                 if (!entry.FullName.EndsWith("/"))
                 {
                     var elem = Path.GetFileName(entry.FullName);
                     var dir = Path.GetDirectoryName(entry.FullName).Replace("\\", "/");
                     _root.AppendItem(dir, elem, entry);
+
+                    callBack?.Invoke(new ZipExtractorEventArgs
+                    {
+                        Name = elem,
+                        Current = item.Index + 1,
+                        Total = _archive.Entries.Count
+                    });
                 }
             }
         }
