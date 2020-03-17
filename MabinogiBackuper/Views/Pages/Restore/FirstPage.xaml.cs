@@ -21,7 +21,7 @@ namespace MabinogiBackuper.Views.Pages.Restore
     /// <summary>
     /// FirstPage.xaml の相互作用ロジック
     /// </summary>
-    public partial class FirstPage : Page
+    public partial class FirstPage : UserControl
     {
         public FirstPage(NavigationWindowService<RestoreShare> service)
         {

@@ -20,7 +20,7 @@ namespace MabinogiBackuper.Views.Pages.Restore
     /// <summary>
     /// RestoreFinishPage.xaml の相互作用ロジック
     /// </summary>
-    public partial class RestoreFinishPage : Page
+    public partial class RestoreFinishPage : UserControl
     {
         public RestoreFinishPage(NavigationWindowService<RestoreShare> service)
         {

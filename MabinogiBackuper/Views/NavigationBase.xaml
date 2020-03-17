@@ -76,7 +76,7 @@
                     <RowDefinition Height="25" />
                 </Grid.RowDefinitions>
 
-                <Frame Name="MainFrame" NavigationUIVisibility="Hidden" />
+                <transitionControlLib:TransitionControl Name="MainFrame" />
 
                 <Grid Grid.Row="1">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

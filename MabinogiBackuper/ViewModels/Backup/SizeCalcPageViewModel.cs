@@ -26,8 +26,6 @@ namespace MabinogiBackuper.ViewModels.Backup
             ProgressValue = model.ObserveProperty(m => m.ProgressValue).ToReactiveProperty();
             ProgressLabel = model.ObserveProperty(m => m.ProgressLabel).ToReactiveProperty();
             Message = model.ObserveProperty(m => m.Message).ToReactiveProperty();
-
-            LoadedCommand = new DelegateCommand(Loaded);
         }
 
         #region Fields
@@ -49,13 +47,11 @@ namespace MabinogiBackuper.ViewModels.Backup
 
         #region Event Properties
 
-        public ICommand LoadedCommand { get; set; }
-
         #endregion
 
         #region Event Methods
 
-        public void Loaded()
+        public override void Loaded()
         {
             if (_share.IsChanged)
                 _ = Analyze();

@@ -21,10 +21,18 @@ namespace MabinogiBackuper.ViewModels
         protected NavigationPageViewModelBase(NavigationBindableValue bindableValue)
         {
             BindableValue = bindableValue;
+
+            LoadedCommand = new DelegateCommand(Loaded);
         }
 
         protected NavigationBindableValue BindableValue { get; }
 
+        public ICommand LoadedCommand { get; set; }
+
+        public virtual void Loaded()
+        {
+
+        }
 
         public virtual void RefreshValues()
         {

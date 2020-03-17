@@ -21,7 +21,7 @@ namespace MabinogiBackuper.Views.Pages.Backup
     /// <summary>
     /// SizeCalcPage.xaml の相互作用ロジック
     /// </summary>
-    public partial class SizeCalcPage : Page
+    public partial class SizeCalcPage : UserControl
     {
         public SizeCalcPage(NavigationWindowService<BackupShare> service)
         {

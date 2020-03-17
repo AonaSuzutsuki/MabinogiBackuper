@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using TransitionControlLib;
 
 namespace MabinogiBackuper.ViewModels
 {
@@ -94,11 +96,10 @@ namespace MabinogiBackuper.ViewModels
 
     public class NavigationWindowService<T> : WindowService where T : new()
     {
-        private int _currentPage = -1;
         private Dictionary<Type, object> cacheDictionary = new Dictionary<Type, object>();
 
         public IList<Type> Pages { get; set; }
-        public NavigationService Navigation { get; set; }
+        public ITransitionNavigationService Navigation { get; set; }
 
         public NavigationBindableValue NavigationValue { get; set; }
 
@@ -112,55 +113,63 @@ namespace MabinogiBackuper.ViewModels
 
         public void Initialize()
         {
-            NavigationValue.CanGoBack = false;
-            NavigationValue.CanGoNext = Pages.Count > 1;
+            Navigation.GetItemFunc = i =>
+            {
+                var type = Navigation.ItemSource[i] as Type;
+                if (type == null)
+                    return null;
+
+                var page = cacheDictionary.GetCallback(type, () => Activator.CreateInstance(type, this));
+                if (!cacheDictionary.ContainsKey(type))
+                    cacheDictionary.Add(type, page);
+                return page;
+            };
+            Navigation.HorizontalOffsetAction = () => Owner.Width + 10;
+            Navigation.ItemSource = (IList)Pages;
+
+            var page = Navigation.ContentValue;
+            RefreshValues(page);
+
+            NavigationValue.CanGoBack = Navigation.CanGoBack;
+            NavigationValue.CanGoNext = Navigation.CanGoNext;
         }
 
         public void GoNext()
         {
-            if (_currentPage + 1 >= Pages.Count)
-                return;
+            Navigation.NavigateNext();
 
-            var type = Pages[_currentPage + 1];
-            var page = cacheDictionary.GetCallback(type, () => Activator.CreateInstance(Pages[_currentPage + 1], this));
-            if (!cacheDictionary.ContainsKey(type))
-                cacheDictionary.Add(type, page);
+            NavigationValue.CanGoNext = Navigation.CanGoNext;
+            NavigationValue.CanGoBack = Navigation.CanGoBack;
 
+            var page = Navigation.ContentValue;
             RefreshValues(page);
-
-            _currentPage++;
-            if (!Navigation.CanGoForward)
-                Navigation.Navigate(page);
-            else
-                Navigation.GoForward();
-
-            if (_currentPage >= Pages.Count - 1)
-                NavigationValue.CanGoNext = false;
-            NavigationValue.CanGoBack = _currentPage > 0;
+            DoLoaded(page);
         }
 
         public void GoBack()
         {
-            if (!Navigation.CanGoBack)
-                return;
+            Navigation.NavigateBack();
 
-            Navigation.GoBack();
-            _currentPage--;
-
-            var type = Pages[_currentPage];
-            var page = cacheDictionary.GetCallback(type, null);
-            RefreshValues(page);
-
-            if (Pages.Count > 1)
-                NavigationValue.CanGoNext = true;
-
+            NavigationValue.CanGoNext = Navigation.CanGoNext;
             NavigationValue.CanGoBack = Navigation.CanGoBack;
 
+            var page = Navigation.ContentValue;
+            RefreshValues(page);
+            DoLoaded(page);
+        }
+
+        private void DoLoaded(object page)
+        {
+            if (page is UserControl cPage)
+            {
+                var refresh = cPage.DataContext as NavigationPageViewModelBase;
+                refresh?.LoadedCommand?.Execute(null);
+            }
         }
 
         private void RefreshValues(object page)
         {
-            if (page is Page cPage)
+            if (page is UserControl cPage)
             {
                 var refresh = cPage.DataContext as INavigationRefresh;
                 refresh?.RefreshValues();
@@ -219,11 +228,6 @@ namespace MabinogiBackuper.ViewModels
 
 
         #region Event Methods
-
-        protected override void MainWindow_Loaded()
-        {
-            _navigationService.GoNext();
-        }
 
         public void GoBack()
         {

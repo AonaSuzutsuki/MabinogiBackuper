@@ -21,7 +21,7 @@ namespace MabinogiBackuper.Views.Pages.Backup
     /// <summary>
     /// BackupSelectionPage.xaml の相互作用ロジック
     /// </summary>
-    public partial class BackupSelectionPage : Page
+    public partial class BackupSelectionPage : UserControl
     {
         public BackupSelectionPage(NavigationWindowService<BackupShare> service)
         {

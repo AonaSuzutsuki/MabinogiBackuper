@@ -21,7 +21,7 @@ namespace MabinogiBackuper.Views.Pages.Backup
     /// <summary>
     /// DestSavePage.xaml の相互作用ロジック
     /// </summary>
-    public partial class DestSavePage : Page
+    public partial class DestSavePage : UserControl
     {
         public DestSavePage(NavigationWindowService<BackupShare> service)
         {

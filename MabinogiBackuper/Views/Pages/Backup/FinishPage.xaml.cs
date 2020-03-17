@@ -21,7 +21,7 @@ namespace MabinogiBackuper.Views.Pages.Backup
     /// <summary>
     /// Finish.xaml の相互作用ロジック
     /// </summary>
-    public partial class FinishPage : Page
+    public partial class FinishPage : UserControl
     {
         public FinishPage(NavigationWindowService<BackupShare> service)
         {

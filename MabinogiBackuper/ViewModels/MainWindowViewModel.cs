@@ -59,7 +59,7 @@ namespace MabinogiBackuper.ViewModels
                 var service = new NavigationWindowService<BackupShare>
                 {
                     Owner = window,
-                    Navigation = window.MainFrame.NavigationService,
+                    Navigation = window.MainFrame,
                     Pages = new List<Type>
                     {
                         typeof(FirstPage),
@@ -70,10 +70,9 @@ namespace MabinogiBackuper.ViewModels
                         typeof(FinishPage)
                     }
                 };
-                service.NavigationValue.WindowTitle = "Mabinogi Backupper - バックアップ";;
+                service.NavigationValue.WindowTitle = "Mabinogi Backupper - バックアップ";
                 service.Initialize();
                 var vm = new NavigationBaseViewModel<BackupShare>(service, navigationModel);
-                window.Loaded += (sender, args) => vm.Loaded.Execute(null);
                 return vm;
             });
         }
@@ -86,7 +85,7 @@ namespace MabinogiBackuper.ViewModels
                 var service = new NavigationWindowService<RestoreShare>
                 {
                     Owner = window,
-                    Navigation = window.MainFrame.NavigationService,
+                    Navigation = window.MainFrame,
                     Pages = new List<Type>
                     {
                         typeof(Views.Pages.Restore.FirstPage),
@@ -96,10 +95,9 @@ namespace MabinogiBackuper.ViewModels
                         typeof(Views.Pages.Restore.RestoreFinishPage)
                     }
                 };
-                service.NavigationValue.WindowTitle = "Mabinogi Backupper - リストア"; ;
+                service.NavigationValue.WindowTitle = "Mabinogi Backupper - リストア";
                 service.Initialize();
                 var vm = new NavigationBaseViewModel<RestoreShare>(service, navigationModel);
-                window.Loaded += (sender, args) => vm.Loaded.Execute(null);
                 return vm;
             });
         }

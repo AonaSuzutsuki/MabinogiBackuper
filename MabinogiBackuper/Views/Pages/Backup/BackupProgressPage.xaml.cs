@@ -21,7 +21,7 @@ namespace MabinogiBackuper.Views.Pages.Backup
     /// <summary>
     /// BackupProgressPage.xaml の相互作用ロジック
     /// </summary>
-    public partial class BackupProgressPage : Page
+    public partial class BackupProgressPage : UserControl
     {
         public BackupProgressPage(NavigationWindowService<BackupShare> service)
         {

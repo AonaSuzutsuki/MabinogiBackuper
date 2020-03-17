@@ -21,7 +21,7 @@ namespace MabinogiBackuper.Views.Pages.Restore
     /// <summary>
     /// RestoreSelectionPage.xaml の相互作用ロジック
     /// </summary>
-    public partial class RestoreSizeCalcPage : Page
+    public partial class RestoreSizeCalcPage : UserControl
     {
         public RestoreSizeCalcPage(NavigationWindowService<RestoreShare> service)
         {
