@@ -12,22 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MabinogiBackuper.Models.Backup;
 using MabinogiBackuper.ViewModels;
 using MabinogiBackuper.ViewModels.Restore;
 
 namespace MabinogiBackuper.Views.Pages.Restore
 {
     /// <summary>
-    /// FirstPage.xaml の相互作用ロジック
+    /// RestoreFinishPage.xaml の相互作用ロジック
     /// </summary>
-    public partial class FirstPage : Page
+    public partial class RestoreFinishPage : Page
     {
-        public FirstPage(NavigationWindowService<RestoreShare> service)
+        public RestoreFinishPage(NavigationWindowService<RestoreShare> service)
         {
             InitializeComponent();
 
-            DataContext = new RestoreFirstPageViewModel(service);
+            DataContext = new NavigationPageViewModel(service.NavigationValue);
+            Loaded += (sender, args) => service.NavigationValue.CloseBtVisibility = Visibility.Collapsed;
         }
     }
 }

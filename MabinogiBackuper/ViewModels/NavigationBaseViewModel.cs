@@ -84,6 +84,7 @@ namespace MabinogiBackuper.ViewModels
         public virtual void InitDefaultValue()
         {
             NextBtContent = "次へ";
+            CanGoNext = true;
             BackBtVisibility = Visibility.Visible;
             NextBtVisibility = Visibility.Visible;
             CancelBtVisibility = Visibility.Visible;

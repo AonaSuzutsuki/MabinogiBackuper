@@ -10,13 +10,6 @@ using Newtonsoft.Json;
 
 namespace MabinogiBackuperLib.Backup
 {
-    public interface IProgressEventArgs
-    {
-        int Total { get; set; }
-        int Current { get; set; }
-        int Percentage { get; }
-        string Name { get; set; }
-    }
     public class RegistryEventArgs : IProgressEventArgs
     {
         public int Total { get; set; }

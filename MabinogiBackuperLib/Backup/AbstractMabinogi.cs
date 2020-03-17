@@ -9,6 +9,8 @@ namespace MabinogiBackuperLib.Backup
 {
     public abstract class AbstractMabinogi
     {
+        public const string RegistryFileName = "Registry.json";
+
         protected long GetDriveFreeSize(string filePath)
         {
             var letter = Path.GetPathRoot(filePath);

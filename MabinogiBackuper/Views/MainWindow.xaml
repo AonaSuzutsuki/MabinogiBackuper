@@ -118,7 +118,7 @@
                         </StackPanel>
                     </Button>
                     <Label Grid.Column="1" Content="⇨" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Button Grid.Column="2" Height="Auto" Style="{StaticResource FlatButton}">
+                    <Button Grid.Column="2" Height="Auto" Style="{StaticResource FlatButton}" Command="{Binding LauncherMoverCommand}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{StaticResource Icon}" Width="25" />
                             <Label Content="マビノギランチャーの登録" />

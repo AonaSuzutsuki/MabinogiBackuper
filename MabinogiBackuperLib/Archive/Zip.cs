@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using CommonCoreLib.CommonPath;
@@ -239,20 +240,10 @@ namespace MabinogiBackuperLib.Archive
         public int Count => _archive.Entries.Count;
 
         #region Event
-        public class ExtractProgressEventArgs : EventArgs
-        {
-            public int Total { get; set; }
-            public int Current { get; set; }
-            public string FilePath { get; set; }
-        }
 
-        public delegate void ExtractProgressChangedEventHandler(object sender, ExtractProgressEventArgs e);
+        //private readonly Subject<ZipExtractorEventArgs> _extractedProgress = new Subject<ZipExtractorEventArgs>();
+        //public IObservable<ZipExtractorEventArgs> ExtractedProgress => _extractedProgress;
 
-        public event ExtractProgressChangedEventHandler Extracted;
-        protected virtual void OnExtracted(ExtractProgressEventArgs e)
-        {
-            Extracted?.Invoke(this, e);
-        }
         #endregion
 
         private readonly ZipArchive _archive;
@@ -291,10 +282,11 @@ namespace MabinogiBackuperLib.Archive
             }
         }
 
-        public void Extract(string extractDirPath)
+        public void Extract(string extractDirPath, Action<ZipExtractorEventArgs> callback = null)
         {
-            foreach (var entry in _archive.Entries)
+            foreach (var item in _archive.Entries.Select((v, i) => new { Index = i, Value = v }))
             {
+                var entry = item.Value;
                 var path = Path.Combine(extractDirPath, entry.FullName);
                 if (path.Substring(path.Length - 1, 1) == "/")
                 {
@@ -307,15 +299,16 @@ namespace MabinogiBackuperLib.Archive
                     entry.ExtractToFile(Path.Combine(extractDirPath, entry.FullName), true);
                 }
 
-                OnExtracted(new ExtractProgressEventArgs
+                callback?.Invoke(new ZipExtractorEventArgs()
                 {
                     Total = Count,
-                    FilePath = entry.FullName
+                    Current = item.Index + 1,
+                    Name = entry.FullName
                 });
             }
         }
 
-        public void Extract(string entryName, string extractDirPath)
+        public void Extract(string entryName, string extractDirPath, Action<ZipExtractorEventArgs> callback = null)
         {
             var item = _root.Exists(entryName);
 
@@ -325,21 +318,21 @@ namespace MabinogiBackuperLib.Archive
 
             if (item.ZipItemType == ItemType.File)
             {
-                Extract(item.Parent, item, extractDirPath, new ExtractProgressEventArgs
+                Extract(item.Parent, item, extractDirPath, new ZipExtractorEventArgs
                 {
                     Total = item.FileCount()
-                });
+                }, callback);
             }
             else
             {
-                Extract(item, item, extractDirPath, new ExtractProgressEventArgs
+                Extract(item, item, extractDirPath, new ZipExtractorEventArgs
                 {
                     Total = item.FileCount()
-                });
+                }, callback);
             }
         }
 
-        public void Extract(ZipItem root, ZipItem zipItem, string extractDirPath, ExtractProgressEventArgs eventArgs)
+        public void Extract(ZipItem root, ZipItem zipItem, string extractDirPath, ZipExtractorEventArgs eventArgs, Action<ZipExtractorEventArgs> callback = null)
         {
             if (zipItem == null)
                 return;
@@ -365,20 +358,20 @@ namespace MabinogiBackuperLib.Archive
                     entry.ExtractToFile(fullPath);
 
                     eventArgs.Current += 1;
-                    eventArgs.FilePath += entry.FullName;
-                    OnExtracted(eventArgs);
+                    eventArgs.Name += entry.FullName;
+                    callback?.Invoke(eventArgs);
                 }
             }
             else
             {
                 foreach (var zipItemFile in zipItem.Files)
                 {
-                    Extract(root, zipItemFile, extractDirPath, eventArgs);
+                    Extract(root, zipItemFile, extractDirPath, eventArgs, callback);
                 }
 
                 foreach (var directory in zipItem.Directories)
                 {
-                    Extract(root, directory, extractDirPath, eventArgs);
+                    Extract(root, directory, extractDirPath, eventArgs, callback);
                 }
             }
         }

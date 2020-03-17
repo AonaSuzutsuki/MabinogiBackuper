@@ -19,7 +19,13 @@
     </Page.Resources>
 
     <Grid>
-        <StackPanel>
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
             <StackPanel>
                 <Label Content="バックアップファイルを選択してください。" />
                 <Grid>
@@ -42,27 +48,30 @@
                 </Grid>
             </StackPanel>
 
-            <StackPanel>
-                <Label Content="復元先を選択してください。" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="5" />
-                        <ColumnDefinition Width="25" />
-                    </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="1">
+                <CheckBox Content="手動で出力先を選択する" IsChecked="{Binding IsManuallyPath}" />
+                <StackPanel Margin="20,0,0,0" IsEnabled="{Binding IsManuallyPath}">
+                    <Label Content="復元先を選択してください。" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="25" />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBox Text="{Binding DestRestorePath, UpdateSourceTrigger=PropertyChanged}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="TextChanged">
-                                <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </TextBox>
+                        <TextBox Text="{Binding DestRestorePath, UpdateSourceTrigger=PropertyChanged}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="TextChanged">
+                                    <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
 
-                    <Button Grid.Column="2" Content="..." Style="{StaticResource FlatButton}" Command="{Binding GetDestRestorePathCommand}" />
+                        <Button Grid.Column="2" Content="..." Style="{StaticResource FlatButton}" Command="{Binding GetDestRestorePathCommand}" />
 
-                </Grid>
+                    </Grid>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
+        </Grid>
     </Grid>
 </Page>

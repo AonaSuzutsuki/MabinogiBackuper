@@ -100,6 +100,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="TransitionControlLib">
+      <HintPath>..\Lib\TransitionControlLib.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -115,6 +118,7 @@
     <Compile Include="Models\Backup\SizeCalcPageModel.cs" />
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Models\NavigationBaseModel.cs" />
+    <Compile Include="Models\Restore\RestoreProgressPageModel.cs" />
     <Compile Include="Models\Restore\RestoreSizeCalcPageModel.cs" />
     <Compile Include="ViewModels\Backup\BackupProgressPageViewModel.cs" />
     <Compile Include="ViewModels\Backup\BackupSelectionPageViewModel.cs" />
@@ -122,12 +126,18 @@
     <Compile Include="ViewModels\Backup\FinishPageViewModel.cs" />
     <Compile Include="ViewModels\Backup\SizeCalcPageViewModel.cs" />
     <Compile Include="ViewModels\INavigationRefresh.cs" />
+    <Compile Include="ViewModels\MabinogiLauncherMoverViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\NavigationBaseViewModel.cs" />
     <Compile Include="ViewModels\NavigationPageViewModelBase.cs" />
     <Compile Include="ViewModels\Restore\DestSavePageViewModel.cs" />
+    <Compile Include="ViewModels\Restore\RestoreFirstPageViewModel.cs" />
+    <Compile Include="ViewModels\Restore\RestoreProgressPageViewModel.cs" />
     <Compile Include="ViewModels\Restore\RestoreSizeCalcPageViewModel.cs" />
     <Compile Include="ViewModels\Restore\RestoreShare.cs" />
+    <Compile Include="Views\MabinogiLauncherMover.xaml.cs">
+      <DependentUpon>MabinogiLauncherMover.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NavigationBase.xaml.cs">
       <DependentUpon>NavigationBase.xaml</DependentUpon>
     </Compile>
@@ -155,10 +165,20 @@
     <Compile Include="Views\Pages\Restore\FirstPage.xaml.cs">
       <DependentUpon>FirstPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pages\Restore\RestoreFinishPage.xaml.cs">
+      <DependentUpon>RestoreFinishPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\Restore\RestoreProgressPage.xaml.cs">
+      <DependentUpon>RestoreProgressPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\Restore\RestoreSizeCalcPage.xaml.cs">
       <DependentUpon>RestoreSizeCalcPage.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\BackupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MabinogiLauncherMover.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -202,6 +222,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\Backup\SizeCalcPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Restore\DestRestorePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Restore\FirstPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Restore\RestoreFinishPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Restore\RestoreProgressPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\Restore\RestoreSizeCalcPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -12,6 +12,12 @@ namespace MabinogiBackuperLib.Backup
     public class MabinogiRestorer : AbstractMabinogi, IDisposable
     {
 
+        #region Statics
+
+        public static readonly string MabinogiLocation = $"{Environment.GetFolderPath(Environment.SpecialFolder.Personal)}\\マビノギ";
+
+        #endregion
+
         #region Fields
 
         private readonly string _backupFile;
@@ -19,12 +25,14 @@ namespace MabinogiBackuperLib.Backup
         private readonly ZipExtractor _zip;
 
         private readonly Subject<IProgressEventArgs> _backupFileAnalyzeProgress = new Subject<IProgressEventArgs>();
+        private readonly Subject<IProgressEventArgs> _restoreProgress = new Subject<IProgressEventArgs>();
 
         #endregion
 
         #region Properties
 
         public IObservable<IProgressEventArgs> BackupFileAnalyzeProgress => _backupFileAnalyzeProgress;
+        public IObservable<IProgressEventArgs> RestoreProgress => _restoreProgress;
 
         #endregion
 
@@ -48,6 +56,19 @@ namespace MabinogiBackuperLib.Backup
 
             var size = zipItem.ExtractedSize();
             return size;
+        }
+
+        public void Restore(string destDirPath)
+        {
+            var zipItem = _zip.Root;
+
+            var jsonItem = zipItem.Exists($"/{RegistryFileName}");
+            if (jsonItem != null)
+            {
+                // write registry
+            }
+
+            _zip.Extract("/マビノギ/", destDirPath, _restoreProgress.OnNext);
         }
 
         public long GetDriveFreeSize()

@@ -7,6 +7,7 @@ using System.Windows.Input;
 using CommonCoreLib.Bool;
 using CommonStyleLib.File;
 using MabinogiBackuper.Models.Backup;
+using MabinogiBackuperLib.Backup;
 using Prism.Commands;
 using Prism.Mvvm;
 using Reactive.Bindings;
@@ -31,6 +32,7 @@ namespace MabinogiBackuper.ViewModels.Restore
 
         private string _savedPath;
         private string _destRestorePath;
+        private bool _isManuallyPath;
 
         #endregion
 
@@ -53,6 +55,17 @@ namespace MabinogiBackuper.ViewModels.Restore
             {
                 SetProperty(ref _destRestorePath, value);
                 _service.Share.DestRestorePath = value;
+            }
+        }
+
+        public bool IsManuallyPath
+        {
+            get => _isManuallyPath;
+            set
+            {
+                SetProperty(ref _isManuallyPath, value);
+                _service.Share.DestRestorePath = !value ? MabinogiRestorer.MabinogiLocation : DestRestorePath;
+                TextChanged();
             }
         }
 
@@ -88,7 +101,9 @@ namespace MabinogiBackuper.ViewModels.Restore
         {
             var collector = new BoolCollector();
             collector.ChangeBool(nameof(SavedPath), !string.IsNullOrEmpty(SavedPath));
-            collector.ChangeBool(nameof(DestRestorePath), !string.IsNullOrEmpty(DestRestorePath));
+
+            if (IsManuallyPath)
+                collector.ChangeBool(nameof(DestRestorePath), !string.IsNullOrEmpty(DestRestorePath));
 
             _service.NavigationValue.CanGoNext = collector.Value;
         }

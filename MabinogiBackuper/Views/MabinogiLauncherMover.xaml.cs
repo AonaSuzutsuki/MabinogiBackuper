@@ -10,24 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MabinogiBackuper.Models.Backup;
-using MabinogiBackuper.ViewModels;
-using MabinogiBackuper.ViewModels.Restore;
 
-namespace MabinogiBackuper.Views.Pages.Restore
+namespace MabinogiBackuper.Views
 {
     /// <summary>
-    /// FirstPage.xaml の相互作用ロジック
+    /// MabinogiLauncherMover.xaml の相互作用ロジック
     /// </summary>
-    public partial class FirstPage : Page
+    public partial class MabinogiLauncherMover : Window
     {
-        public FirstPage(NavigationWindowService<RestoreShare> service)
+        public MabinogiLauncherMover()
         {
             InitializeComponent();
-
-            DataContext = new RestoreFirstPageViewModel(service);
         }
     }
 }

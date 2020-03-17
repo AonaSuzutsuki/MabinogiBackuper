@@ -10,7 +10,7 @@ namespace MabinogiBackuper.ViewModels.Restore
     public class RestoreShare
     {
         private string _savedPath;
-        private string _destRestorePath;
+        private string _destRestorePath = MabinogiRestorer.MabinogiLocation;
 
         public string SavedPath
         {

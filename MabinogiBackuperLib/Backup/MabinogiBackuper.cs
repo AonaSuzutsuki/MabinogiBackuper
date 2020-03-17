@@ -73,7 +73,7 @@ namespace MabinogiBackuperLib.Backup
             }
             
             if (!string.IsNullOrEmpty(_registryJson))
-                zip.Add("Registry.json", Encoding.UTF8.GetBytes(_registryJson));
+                zip.Add(RegistryFileName, Encoding.UTF8.GetBytes(_registryJson));
 
             zip.Consolidate(_backupProgress.OnNext);
             GC.Collect();

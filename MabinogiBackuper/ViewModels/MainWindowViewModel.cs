@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CommonStyleLib.Models;
 using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using MabinogiBackuper.Models;
@@ -25,6 +26,7 @@ namespace MabinogiBackuper.ViewModels
 
             BackupBtCommand = new DelegateCommand(OpenBackup);
             RestoreCommand = new DelegateCommand(OpenRestore);
+            LauncherMoverCommand = new DelegateCommand(OpenLauncherMover);
         }
 
         #region Fields
@@ -43,6 +45,7 @@ namespace MabinogiBackuper.ViewModels
 
         public ICommand BackupBtCommand { get; set; }
         public ICommand RestoreCommand { get; set; }
+        public ICommand LauncherMoverCommand { get; set; }
 
         #endregion
 
@@ -89,6 +92,8 @@ namespace MabinogiBackuper.ViewModels
                         typeof(Views.Pages.Restore.FirstPage),
                         typeof(Views.Pages.Restore.DestRestorePage),
                         typeof(Views.Pages.Restore.RestoreSizeCalcPage),
+                        typeof(Views.Pages.Restore.RestoreProgressPage),
+                        typeof(Views.Pages.Restore.RestoreFinishPage)
                     }
                 };
                 service.NavigationValue.WindowTitle = "Mabinogi Backupper - リストア"; ;
@@ -97,6 +102,13 @@ namespace MabinogiBackuper.ViewModels
                 window.Loaded += (sender, args) => vm.Loaded.Execute(null);
                 return vm;
             });
+        }
+
+        public void OpenLauncherMover()
+        {
+            var modelBase = new ModelBase();
+            var vm = new MabinogiLauncherMoverViewModel(new WindowService(), modelBase);
+            WindowManageService.ShowDialog<MabinogiLauncherMover>(vm);
         }
 
         #endregion

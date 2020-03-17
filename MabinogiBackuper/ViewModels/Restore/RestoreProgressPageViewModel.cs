@@ -6,18 +6,16 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using MabinogiBackuper.Models.Restore;
-using Prism.Commands;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
 namespace MabinogiBackuper.ViewModels.Restore
 {
-    public class RestoreSizeCalcPageViewModel : NavigationPageViewModelBase
+    public class RestoreProgressPageViewModel : NavigationPageViewModelBase
     {
-        public RestoreSizeCalcPageViewModel(NavigationWindowService<RestoreShare> service, RestoreSizeCalcPageModel model) : base(service?.NavigationValue)
+        public RestoreProgressPageViewModel(NavigationWindowService<RestoreShare> service, RestoreProgressPageModel model) : base(service?.NavigationValue)
         {
             _model = model;
-            _share = service?.Share;
 
             ProgressVisibility = model.ObserveProperty(m => m.ProgressVisibility).ToReactiveProperty();
             MessageVisibility = model.ObserveProperty(m => m.MessageVisibility).ToReactiveProperty();
@@ -25,14 +23,12 @@ namespace MabinogiBackuper.ViewModels.Restore
             ProgressLabel = model.ObserveProperty(m => m.ProgressLabel).ToReactiveProperty();
             Message = model.ObserveProperty(m => m.Message).ToReactiveProperty();
 
-            LoadedCommand = new DelegateCommand(Loaded);
+            _ = Loaded();
         }
-
 
         #region Fields
 
-        private readonly RestoreShare _share;
-        private readonly RestoreSizeCalcPageModel _model;
+        private readonly RestoreProgressPageModel _model;
 
         #endregion
 
@@ -48,26 +44,15 @@ namespace MabinogiBackuper.ViewModels.Restore
 
         #region Event Properties
 
-        public ICommand LoadedCommand { get; set; }
 
         #endregion
 
         #region Methods
 
-        public void Loaded()
+        public async Task Loaded()
         {
-            if (_share.IsChanged)
-                _ = Analyze();
-            _share.IsChanged = false;
-        }
+            await _model.Restore();
 
-        public async Task Analyze()
-        {
-            await _model.Analyze();
-
-            BindableValue.NextBtContent = "開始する";
-            BindableValue.BackBtVisibility = Visibility.Visible;
-            BindableValue.CancelBtVisibility = Visibility.Visible;
             BindableValue.NextBtVisibility = Visibility.Visible;
         }
 
@@ -75,13 +60,10 @@ namespace MabinogiBackuper.ViewModels.Restore
         {
             base.RefreshValues();
 
-            if (_share.IsChanged)
-            {
-                BindableValue.BackBtVisibility = Visibility.Collapsed;
-                BindableValue.CancelBtVisibility = Visibility.Collapsed;
-                BindableValue.CloseBtVisibility = Visibility.Collapsed;
-                BindableValue.NextBtVisibility = Visibility.Collapsed;
-            }
+            BindableValue.BackBtVisibility = Visibility.Collapsed;
+            BindableValue.CancelBtVisibility = Visibility.Collapsed;
+            BindableValue.CloseBtVisibility = Visibility.Collapsed;
+            BindableValue.NextBtVisibility = Visibility.Collapsed;
         }
 
         #endregion
