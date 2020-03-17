@@ -26,8 +26,7 @@ namespace MabinogiBackuper.Views.Pages.Restore
         {
             InitializeComponent();
 
-            DataContext = new NavigationPageViewModel(service.NavigationValue);
-            Loaded += (sender, args) => service.NavigationValue.CloseBtVisibility = Visibility.Collapsed;
+            DataContext = new RestoreFinishPageViewModel(service);
         }
     }
 }

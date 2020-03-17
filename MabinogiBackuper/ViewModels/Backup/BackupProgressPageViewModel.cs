@@ -46,7 +46,7 @@ namespace MabinogiBackuper.ViewModels.Backup
 
         #region Event Mehods
 
-        private async Task Loaded()
+        private new async Task Loaded()
         {
             await _model.Analyze();
 

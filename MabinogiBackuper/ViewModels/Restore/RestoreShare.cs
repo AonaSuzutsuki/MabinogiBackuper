@@ -7,7 +7,7 @@ using MabinogiBackuperLib.Backup;
 
 namespace MabinogiBackuper.ViewModels.Restore
 {
-    public class RestoreShare
+    public class RestoreShare : IDisposable
     {
         private string _savedPath;
         private string _destRestorePath = MabinogiRestorer.MabinogiLocation;
@@ -35,5 +35,10 @@ namespace MabinogiBackuper.ViewModels.Restore
         public bool IsChanged { get; set; }
 
         public MabinogiRestorer Restorer { get; set; }
+
+        public void Dispose()
+        {
+            Restorer?.Dispose();
+        }
     }
 }

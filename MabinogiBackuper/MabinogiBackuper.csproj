@@ -131,6 +131,7 @@
     <Compile Include="ViewModels\NavigationBaseViewModel.cs" />
     <Compile Include="ViewModels\NavigationPageViewModelBase.cs" />
     <Compile Include="ViewModels\Restore\DestSavePageViewModel.cs" />
+    <Compile Include="ViewModels\Restore\RestoreFinishPageViewModel.cs" />
     <Compile Include="ViewModels\Restore\RestoreFirstPageViewModel.cs" />
     <Compile Include="ViewModels\Restore\RestoreProgressPageViewModel.cs" />
     <Compile Include="ViewModels\Restore\RestoreSizeCalcPageViewModel.cs" />

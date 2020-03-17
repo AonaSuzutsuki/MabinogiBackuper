@@ -49,7 +49,7 @@ namespace MabinogiBackuper.ViewModels.Restore
 
         #region Methods
 
-        public async Task Loaded()
+        public new async Task Loaded()
         {
             await _model.Restore();
 

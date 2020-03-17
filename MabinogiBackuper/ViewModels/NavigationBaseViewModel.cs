@@ -244,6 +244,13 @@ namespace MabinogiBackuper.ViewModels
             base.MainWindowCloseBt_Click();
         }
 
+        protected override void MainWindow_Closing()
+        {
+            var share = _navigationService.Share;
+            if (share is IDisposable cPage)
+                cPage.Dispose();
+        }
+
         #endregion
     }
 }
