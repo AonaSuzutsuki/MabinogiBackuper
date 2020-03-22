@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MabinogiBackuper.Models.Restore;
 using MabinogiBackuper.ViewModels;
 using MabinogiBackuper.ViewModels.Restore;
 

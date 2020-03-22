@@ -135,7 +135,7 @@
     <Compile Include="ViewModels\Restore\RestoreFirstPageViewModel.cs" />
     <Compile Include="ViewModels\Restore\RestoreProgressPageViewModel.cs" />
     <Compile Include="ViewModels\Restore\RestoreSizeCalcPageViewModel.cs" />
-    <Compile Include="ViewModels\Restore\RestoreShare.cs" />
+    <Compile Include="Models\Restore\RestoreShare.cs" />
     <Compile Include="Views\MabinogiLauncherMover.xaml.cs">
       <DependentUpon>MabinogiLauncherMover.xaml</DependentUpon>
     </Compile>

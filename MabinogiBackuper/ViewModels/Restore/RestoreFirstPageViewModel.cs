@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using CommonStyleLib.Models;
 using CommonStyleLib.Views;
+using MabinogiBackuper.Models.Restore;
 using MabinogiBackuper.Views;
 using Prism.Commands;
 using Prism.Mvvm;

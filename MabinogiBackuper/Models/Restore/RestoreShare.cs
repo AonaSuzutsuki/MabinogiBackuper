@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MabinogiBackuperLib.Backup;
 
-namespace MabinogiBackuper.ViewModels.Restore
+namespace MabinogiBackuper.Models.Restore
 {
     public class RestoreShare : IDisposable
     {

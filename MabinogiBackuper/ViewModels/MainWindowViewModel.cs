@@ -10,6 +10,7 @@ using CommonStyleLib.ViewModels;
 using CommonStyleLib.Views;
 using MabinogiBackuper.Models;
 using MabinogiBackuper.Models.Backup;
+using MabinogiBackuper.Models.Restore;
 using MabinogiBackuper.ViewModels.Restore;
 using MabinogiBackuper.Views;
 using MabinogiBackuper.Views.Pages;
