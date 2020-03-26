@@ -70,10 +70,14 @@ namespace MabinogiBackuper.ViewModels.Backup
         public override void RefreshValues()
         {
             BindableValue.InitDefaultValue();
+
             BindableValue.NextBtContent = "開始する";
-            BindableValue.BackBtVisibility = Visibility.Collapsed;
-            BindableValue.CancelBtVisibility = Visibility.Collapsed;
-            BindableValue.NextBtVisibility = Visibility.Collapsed;
+            if (_share.IsChanged)
+            {
+                BindableValue.BackBtVisibility = Visibility.Collapsed;
+                BindableValue.CancelBtVisibility = Visibility.Collapsed;
+                BindableValue.NextBtVisibility = Visibility.Collapsed;
+            }
         }
 
         #endregion

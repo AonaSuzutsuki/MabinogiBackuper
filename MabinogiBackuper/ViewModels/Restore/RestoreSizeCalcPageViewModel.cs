@@ -62,7 +62,6 @@ namespace MabinogiBackuper.ViewModels.Restore
         {
             await _model.Analyze();
 
-            BindableValue.NextBtContent = "開始する";
             BindableValue.BackBtVisibility = Visibility.Visible;
             BindableValue.CancelBtVisibility = Visibility.Visible;
             BindableValue.NextBtVisibility = Visibility.Visible;
@@ -72,6 +71,7 @@ namespace MabinogiBackuper.ViewModels.Restore
         {
             base.RefreshValues();
 
+            BindableValue.NextBtContent = "開始する";
             if (_share.IsChanged)
             {
                 BindableValue.BackBtVisibility = Visibility.Collapsed;
