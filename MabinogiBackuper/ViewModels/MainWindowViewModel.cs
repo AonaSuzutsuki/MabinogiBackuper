@@ -61,14 +61,14 @@ namespace MabinogiBackuper.ViewModels
                 {
                     Owner = window,
                     Navigation = window.MainFrame,
-                    Pages = new List<Type>
+                    Pages = new List<Tuple<Type, bool>>
                     {
-                        typeof(FirstPage),
-                        typeof(DestSavePage),
-                        typeof(BackupSelectionPage),
-                        typeof(SizeCalcPage),
-                        typeof(BackupProgressPage),
-                        typeof(FinishPage)
+                        new Tuple<Type, bool>(typeof(FirstPage), true),
+                        new Tuple<Type, bool>(typeof(DestSavePage), true),
+                        new Tuple<Type, bool>(typeof(BackupSelectionPage), true),
+                        new Tuple<Type, bool>(typeof(SizeCalcPage), false),
+                        new Tuple<Type, bool>(typeof(BackupProgressPage), false),
+                        new Tuple<Type, bool>(typeof(FinishPage), true),
                     }
                 };
                 service.NavigationValue.WindowTitle = "Mabinogi Backupper - バックアップ";
@@ -87,13 +87,13 @@ namespace MabinogiBackuper.ViewModels
                 {
                     Owner = window,
                     Navigation = window.MainFrame,
-                    Pages = new List<Type>
+                    Pages = new List<Tuple<Type, bool>>
                     {
-                        typeof(Views.Pages.Restore.FirstPage),
-                        typeof(Views.Pages.Restore.DestRestorePage),
-                        typeof(Views.Pages.Restore.RestoreSizeCalcPage),
-                        typeof(Views.Pages.Restore.RestoreProgressPage),
-                        typeof(Views.Pages.Restore.RestoreFinishPage)
+                        new Tuple<Type, bool>(typeof(Views.Pages.Restore.FirstPage), true),
+                        new Tuple<Type, bool>(typeof(Views.Pages.Restore.DestRestorePage), true),
+                        new Tuple<Type, bool>(typeof(Views.Pages.Restore.RestoreSizeCalcPage), false),
+                        new Tuple<Type, bool>(typeof(Views.Pages.Restore.RestoreProgressPage), false),
+                        new Tuple<Type, bool>(typeof(Views.Pages.Restore.RestoreFinishPage), true)
                     }
                 };
                 service.NavigationValue.WindowTitle = "Mabinogi Backupper - リストア";

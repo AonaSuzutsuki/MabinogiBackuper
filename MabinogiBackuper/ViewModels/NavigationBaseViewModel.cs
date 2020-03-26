@@ -96,9 +96,9 @@ namespace MabinogiBackuper.ViewModels
 
     public class NavigationWindowService<T> : WindowService where T : new()
     {
-        private Dictionary<Type, object> cacheDictionary = new Dictionary<Type, object>();
+        private Dictionary<Type, Tuple<object, bool>> cacheDictionary = new Dictionary<Type, Tuple<object, bool>>();
 
-        public IList<Type> Pages { get; set; }
+        public IList<Tuple<Type, bool>> Pages { get; set; }
         public ITransitionNavigationService Navigation { get; set; }
 
         public NavigationBindableValue NavigationValue { get; set; }
@@ -116,16 +116,16 @@ namespace MabinogiBackuper.ViewModels
             Navigation.GetItemFunc = i =>
             {
                 var type = Navigation.ItemSource[i] as Type;
-                if (type == null)
-                    return null;
+                if (type == null || Pages.Count - 1 < i)
+                    return (new object(), false);
 
-                var page = cacheDictionary.GetCallback(type, () => Activator.CreateInstance(type, this));
+                var page = cacheDictionary.GetCallback(type, () => new Tuple<object, bool>(Activator.CreateInstance(type, this), Pages[i].Item2));
                 if (!cacheDictionary.ContainsKey(type))
                     cacheDictionary.Add(type, page);
-                return page;
+                return (page.Item1, page.Item2);
             };
             Navigation.HorizontalOffsetAction = () => Owner.Width + 10;
-            Navigation.ItemSource = (IList)Pages;
+            Navigation.ItemSource = (from x in Pages select x.Item1).ToList();
 
             var page = Navigation.ContentValue;
             RefreshValues(page);
