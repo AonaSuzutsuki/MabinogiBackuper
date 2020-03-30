@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using CommonStyleLib.Models;
 using CommonStyleLib.Views;
+using MabinogiBackuper.Models;
 using MabinogiBackuper.Models.Restore;
 using MabinogiBackuper.Views;
 using Prism.Commands;
@@ -46,7 +47,7 @@ namespace MabinogiBackuper.ViewModels.Restore
         public void LaunchMabinogi()
         {
             var parent = _service.Parent;
-            var vm = new MabinogiLauncherMoverViewModel(new WindowService(parent.Owner), new ModelBase());
+            var vm = new MabinogiLauncherMoverViewModel(new WindowService(parent.Owner), new MabinogiLauncherMoverModel());
             _service.Close();
             parent.ShowDialog<MabinogiLauncherMover>(vm);
         }

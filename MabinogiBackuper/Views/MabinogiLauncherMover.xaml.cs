@@ -11,6 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CommonStyleLib.Models;
+using CommonStyleLib.Views;
+using MabinogiBackuper.Models;
+using MabinogiBackuper.ViewModels;
 
 namespace MabinogiBackuper.Views
 {
@@ -22,6 +26,8 @@ namespace MabinogiBackuper.Views
         public MabinogiLauncherMover()
         {
             InitializeComponent();
+
+            DataContext = new MabinogiLauncherMoverViewModel(new WindowService(this), new MabinogiLauncherMoverModel());
         }
     }
 }

@@ -106,7 +106,7 @@ namespace MabinogiBackuper.ViewModels
         public void OpenLauncherMover()
         {
             var modelBase = new ModelBase();
-            var vm = new MabinogiLauncherMoverViewModel(new WindowService(), modelBase);
+            var vm = new MabinogiLauncherMoverViewModel(new WindowService(), new MabinogiLauncherMoverModel());
             WindowManageService.ShowDialog<MabinogiLauncherMover>(vm);
         }
 

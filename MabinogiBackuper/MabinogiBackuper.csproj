@@ -116,6 +116,7 @@
     <Compile Include="Models\Backup\BackupShare.cs" />
     <Compile Include="Models\Backup\FinishPageModel.cs" />
     <Compile Include="Models\Backup\SizeCalcPageModel.cs" />
+    <Compile Include="Models\MabinogiLauncherMoverModel.cs" />
     <Compile Include="Models\MainWindowModel.cs" />
     <Compile Include="Models\NavigationBaseModel.cs" />
     <Compile Include="Models\Restore\RestoreProgressPageModel.cs" />
