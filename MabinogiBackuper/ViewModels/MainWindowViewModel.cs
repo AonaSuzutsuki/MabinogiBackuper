@@ -28,6 +28,7 @@ namespace MabinogiBackuper.ViewModels
             BackupBtCommand = new DelegateCommand(OpenBackup);
             RestoreCommand = new DelegateCommand(OpenRestore);
             LauncherMoverCommand = new DelegateCommand(OpenLauncherMover);
+            SettingMabinogiCommand = new DelegateCommand(OpenSettingMabinogi);
         }
 
         #region Fields
@@ -47,6 +48,7 @@ namespace MabinogiBackuper.ViewModels
         public ICommand BackupBtCommand { get; set; }
         public ICommand RestoreCommand { get; set; }
         public ICommand LauncherMoverCommand { get; set; }
+        public ICommand SettingMabinogiCommand { get; set; }
 
         #endregion
 
@@ -108,6 +110,13 @@ namespace MabinogiBackuper.ViewModels
             var modelBase = new ModelBase();
             var vm = new MabinogiLauncherMoverViewModel(new WindowService(), new MabinogiLauncherMoverModel());
             WindowManageService.ShowDialog<MabinogiLauncherMover>(vm);
+        }
+
+        public void OpenSettingMabinogi()
+        {
+            var modelBase = new ModelBase();
+            var vm = new ViewModelBase(new WindowService(), modelBase);
+            WindowManageService.ShowDialog<MabinogiSetting>(vm);
         }
 
         #endregion

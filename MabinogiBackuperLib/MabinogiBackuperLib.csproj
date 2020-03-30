@@ -89,6 +89,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExRegistry\RegEdit.cs" />
     <Compile Include="Archive\Zip.cs" />
+    <Compile Include="Setting\MabinogiSettingInfo.cs" />
+    <Compile Include="Setting\MabinogiSettingLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />

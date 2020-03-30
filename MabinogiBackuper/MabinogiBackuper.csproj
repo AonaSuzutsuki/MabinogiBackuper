@@ -140,6 +140,9 @@
     <Compile Include="Views\MabinogiLauncherMover.xaml.cs">
       <DependentUpon>MabinogiLauncherMover.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MabinogiSetting.xaml.cs">
+      <DependentUpon>MabinogiSetting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NavigationBase.xaml.cs">
       <DependentUpon>NavigationBase.xaml</DependentUpon>
     </Compile>
@@ -181,6 +184,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MabinogiLauncherMover.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MabinogiSetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
